@@ -22,6 +22,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	Spy * mySpy = new Spy();
 	cout << *mySpy->getWindowList();
 
+	println(1, "testtest");
+	println(1, "testtest", 3);
+	println(1, "testtest", 34, "bla");
 
 	// new part, starting from here
 

@@ -1,19 +1,29 @@
 #pragma once
-class Watcher
-{
-public:
-	Watcher(void);
-	void init();
-	void update();
-	~Watcher(void);
 
-private:
+using std::string;
 
-	static int childCount;
+namespace Watcher {
 
-	static void Readout(HWND mainH);
-	static BOOL CALLBACK ReadoutPlayers(HWND hwnd, LPARAM lparam);
-	static void printHandleInfo(HWND hwnd); //debug function
+	struct PlayerHWND {
+		PlayerHWND() : nameH(0), pingH(0), scoreH(0) {}
+		HWND nameH;
+		HWND pingH;
+		HWND scoreH;
+	} PlayerH[MAX_PLAYER];
+
+	int nPlayer;
+	int childCount;
+	HWND nameyearH, timeH, playerpanelH;
+
+
+	void setHandles(HWND mainH);
+	BOOL CALLBACK setPlayerHandles(HWND hwnd, LPARAM lparam);
+	void printHandleInfo(HWND hwnd); //debug function
+
+
+
+
+
 
 };
 

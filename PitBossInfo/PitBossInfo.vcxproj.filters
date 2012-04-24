@@ -48,6 +48,9 @@
     <ClInclude Include="GameStatus.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -78,6 +81,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="GameStatus.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
