@@ -15,8 +15,8 @@ namespace Helper
 	//void print(int lvl, string str);
 
 	// general function
-	void print(int lvl, const char* Format, ...);
-	void println(int lvl, const char* Format, ...);
+	void print(int lvl,LPCTSTR lpOutputString, ... );
+	void println(int lvl,LPCTSTR lpOutputString, ... );
 
 	void printHandleInfo();
 };

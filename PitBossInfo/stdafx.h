@@ -17,13 +17,18 @@
 
 //settings
 #define MAX_PLAYER 32
-#define VERBOSE_LEVEL 1 //verbose level: -1 print nothing, 0: normal runtime, 1: standart debug, 2: debug every detail
+#define VERBOSE_LEVEL 1 /*verbose level: -1 print nothing, 0: normal runtime, 1: standart debug, 2: debug every detail*/
+
+#define GAME_NAME "Luemmelparty 6"
+#define LANGUAGE _EN
+
 
 // TODO: Hier auf zusätzliche Header, die das Programm erfordert, verweisen.
 #include "Helper.h"
+#include "Lang.h"
 
 
 //namespaces
 using std::string;
-using Helper::print;
-using Helper::println;
+using namespace Helper;
+using namespace Lang;

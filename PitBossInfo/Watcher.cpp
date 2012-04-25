@@ -1,56 +1,88 @@
 #include "StdAfx.h"
 #include "Watcher.h"
 
+#include "GameStatus.h"
+
 
 namespace Watcher {
 
+	/*
+	struct PlayerHWND {
+		PlayerHWND() : nameH(0), pingH(0), scoreH(0) {}
+		HWND nameH;
+		HWND pingH;
+		HWND scoreH;
+	} PlayerH[MAX_PLAYER];
+
+	int nPlayer;
+	int childCount;
+	HWND pitbossH, nameyearH, timeH, playerpanelH;
+	*/
+
 	void init(){
+		print(0, L"init Watcher...");
+
+		
 		childCount = 0;
 		nPlayer = 0;
 
-		HWND nameyearH = 0;
-		HWND timeH = 0;
-		HWND playerpanelH = 0;
+		pitbossH = 0;
+		nameyearH = 0;
+		timeH = 0;
+		playerpanelH = 0;
+		
+
+		print(1, _T("seeking pitboss main window: "));
+		pitbossH = FindWindow(NULL, TXT_GET(LANGUAGE, TXT_PITBOSS_TITLE, _T(GAME_NAME)));
+
+		if (pitbossH != 0){
+			println(1, L"DONE");
+			setHandles();
+		}
+		else {
+			println(1, L"FAIL (need to change the title from ger to eng??)");
+			assert(pitbossH);
+		}
 
 		//PlayerHWND PlayerH[MAX_PLAYER];
 	}
 
-	void setHandles(HWND mainH){
+	void setHandles(){
 
 		//getting game name and year
-		print(1,"getting handle - name and year: ");
-		nameyearH = GetWindow(mainH, GW_CHILD);
-		if (nameyearH!=0){println(1, "DONE");}
+		print(1,L"getting handle - name and year: ");
+		nameyearH = GetWindow(pitbossH, GW_CHILD);
+		if (nameyearH!=0){println(1, L"DONE");}
 		else {
-			println(1,"FAIL");
+			println(1, L"FAIL");
 			assert(nameyearH);
 		}
 		
 		// getting timer
-		print(1,"getting handle - time: ");
+		print(1, L"getting handle - time: ");
 		timeH = GetWindow(nameyearH, GW_HWNDNEXT); //skipping the roundtimer button
 		timeH = GetWindow(timeH, GW_HWNDNEXT);
-		if (timeH!=0){println(1, "DONE");}
+		if (timeH!=0){println(1, L"DONE");}
 		else {
-			println(1,"FAIL");
+			println(1, L"FAIL");
 			assert(timeH);
 		}
 		
 		//getting player panel
-		print(1,"getting handle - playerpanel : ");
+		print(1,L"getting handle - playerpanel : ");
 		playerpanelH = GetWindow(timeH, GW_HWNDNEXT);
-		if (playerpanelH!=0){println(1, "DONE");}
+		if (playerpanelH!=0){println(1, L"DONE");}
 		else {
-			println(1,"FAIL");
+			println(1, L"FAIL");
 			assert(playerpanelH);
 		}
 
 		//getting each player
 		childCount = 0;
-		println(1,"getting handle - players: ");
+		println(1, L"getting handle - players: ");
 		EnumChildWindows(playerpanelH, setPlayerHandles, 0);
 		childCount /= 8; //there are 8 elements per player
-		println(1, "   found #children: ", childCount);
+		println(1, L"   found #children: ", childCount);
 	}
 
 
@@ -61,23 +93,24 @@ namespace Watcher {
 		int childType = childCount%8;
 		switch (childType) {
 			case 0:
-				println(1,"   - found handle - player nr", playerNr, ": [");
+				print(1, L"   - found handle - player nr %i: [", playerNr);
+				break;
 			case 2: //player name
 				PlayerH[playerNr].nameH = hwnd;
-				print(1,"name: DONE");
+				print(1,L"name: DONE");
 				break;
 			case 4: //ping
 				PlayerH[playerNr].pingH = hwnd;
-				print(1,"; ping: DONE");
+				print(1,L"; ping: DONE");
 				break;
 			case 6: //score
 				PlayerH[playerNr].scoreH = hwnd;
-				print(1,"; score: DONE]   DONE");
+				println(1,L"; score: DONE]   DONE");
 				break;
 			default:
 				break;
 		}
-
+		childCount++;
 		/*
 		wchar_t class_name[80];
 		wchar_t title[80];
@@ -107,6 +140,13 @@ namespace Watcher {
 		*/
 		return TRUE;
 	}
+
+
+	GameStatus* getStatus() {
+
+		return new GameStatus();
+	}
+
 
 
 	void printHandleInfo(HWND hwnd){

@@ -7,72 +7,30 @@ using namespace std;
 
 namespace Helper {
 
-
-	/*
-	void print(int lvl, string str){
+	void print (int lvl, LPCTSTR lpOutputString, ... )
+	{
 		if (lvl >= VERBOSE_LEVEL){
-			cout << str;
+			va_list argptr;
+			va_start(argptr, lpOutputString);
+
+			vwprintf(lpOutputString, argptr);
+
+			va_end(argptr);
 		}
 	}
 
-	void println(int lvl, string str){
+
+	void println (int lvl, LPCTSTR lpOutputString, ... )
+	{
 		if (lvl >= VERBOSE_LEVEL){
-			cout << str << endl;
+			va_list argptr;
+			va_start(argptr, lpOutputString);
+
+			vwprintf(lpOutputString, argptr);
+			cout << endl;
+
+			va_end(argptr);
 		}
-	}
-	*/
-	void print(int lvl, const char* Format, ...){
-		if (lvl >= VERBOSE_LEVEL){
-			va_list Arguments;
-			va_start(Arguments, Format);
-			double FArg;
-			int IArg;
-			for(int i = 0; Format[i] != '\0'; ++i )
-			{
-				cout << "formatcode: "<<Format[i];
-
-				if (Format[i] == 'f')
-				{
-					FArg=va_arg(Arguments, double);
-					printf("Caught a float : %.3lf\n",FArg);
-				}
-				else if (Format[i] == 'i')
-				{
-					IArg=va_arg(Arguments, int);
-					printf("Caught an integer : %d\n",IArg);
-				}
-			}
-			va_end(Arguments);
-		}
-	}
-
-	void println(int lvl, const char* Format, ...){
-		if (lvl >= VERBOSE_LEVEL){
-			va_list Arguments;
-			va_start(Arguments, Format);
-			double FArg;
-			int IArg;
-			for(int i = 0; Format[i] != '\0'; ++i )
-			{
-				cout << "formatcode: "<<Format[i];
-
-				if (Format[i] == 'f')
-				{
-					FArg=va_arg(Arguments, double);
-					printf("Caught a float : %.3lf\n",FArg);
-				}
-				else if (Format[i] == 'i')
-				{
-					IArg=va_arg(Arguments, int);
-					printf("Caught an integer : %d\n",IArg);
-				}
-			}
-			va_end(Arguments);
-		}
-	}
-
-	void printHandleInfo(){
-
 	}
 
 

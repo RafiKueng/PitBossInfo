@@ -13,18 +13,27 @@
 #include "Spy.h"
 #include "Game.h"
 #include "Logger.h"
+#include "Watcher.h"
+
+#include "Lang.h"
 
 using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	// old stuff for testing
-	Spy * mySpy = new Spy();
-	cout << *mySpy->getWindowList();
+	//Spy * mySpy = new Spy();
+	//cout << *mySpy->getWindowList();
 
-	println(1, "testtest");
-	println(1, "testtest", 3);
-	println(1, "testtest", 34, "bla");
+
+	//testing
+
+	wcout<<Lang::TXT_GET(_DE, TXT_PITBOSS_TITLE, _T("NAAMMEE"))<<endl;
+	wcout<<Lang::TXT_GET(_DE, TXT_PITBOSS_TITLE)<<endl;
+
+	Watcher::init();
+
+
 
 	// new part, starting from here
 
