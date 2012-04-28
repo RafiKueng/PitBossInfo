@@ -1,18 +1,54 @@
 #include "StdAfx.h"
 #include "GameStatus.h"
 
+#include <sstream>
+
 
 GameStatus::GameStatus(void)
 {
 }
 
+GameStatus::GameStatus(string _name, int _year, time_t _nextRound, int _nPlayer)
+{
+	name = _name;
+	year = _year;
+	nextRound = _nextRound;
+	nPlayer = _nPlayer;
+
+	player = new Player[nPlayer];
+}
 
 GameStatus::~GameStatus(void)
 {
+	delete [] player;
 }
 
 
 
+void GameStatus::setPlayer(int id, Player &p){
+	player[id] = p;
+}
+
+void GameStatus::setPlayer(int id, string name, bool finishedTurn, Status status, int score){
+	Player *p = new Player(name, finishedTurn, status, score);
+	player[id] = *p;
+}
+
+
 string GameStatus::toString(){
-	return string("");
+	
+	stringstream buf = stringstream();
+	struct tm * timeinfo;
+
+	buf << "Gamestatus:\n";
+	buf << "  name: "+name << "\n";
+	buf << "  year: "+year << "\n";
+	buf << "  nextRound: " + nextRound << "\n";
+	buf << "  nextRound: "; buf << asctime(localtime(&nextRound)) << "\n"; 
+
+	for (int i =0; i<nPlayer;++i){
+		buf << "  P"<<i<<": "<<player[i].toString(); 
+	}
+		
+	return buf.str();
 }

@@ -2,14 +2,13 @@
 * PBI - PitBossInfo
 *
 * author:		rafael kueng <rafi.kueng@gmx.ch>
-* license:		DTFYWWI - do the fuck you want with it (but please give me credit)
+* license:		DWYWWI - do whatever you want with it (but please give me credit)
 * version:		v0.1
 * timestamp:	2012-04-23--22:45
 *********************************************************************************************/
 
 #include "stdafx.h"
 #include <conio.h>
-#include <time.h>
 
 #include "Spy.h"
 #include "Game.h"
@@ -28,6 +27,13 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
 	//testing
+
+	time_t rawtime;
+	struct tm * timeinfo;
+
+	time ( &rawtime );
+	timeinfo = localtime ( &rawtime );
+	printf ( "Current local time and date: %s", asctime (timeinfo) );
 
 	/*testing translation
 	cout << Lang::TXT_GET_C(_DE, TXT_PITBOSS_TITLE, "NAAMMEE")<<endl;

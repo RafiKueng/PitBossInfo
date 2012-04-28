@@ -13,6 +13,7 @@
 #include <string>
 #include <windows.h>
 #include <assert.h>
+#include <time.h>
 
 
 //settings

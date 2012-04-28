@@ -3,7 +3,6 @@
 
 
 #include <sstream>
-#include <time.h>
 #include "GameStatus.h"
 
 
@@ -149,7 +148,31 @@ namespace Watcher {
 
 	GameStatus* getStatus() {
 
-		return new GameStatus();
+		string name;
+		int year;
+		time_t nextRound;
+
+		// TODO
+		// get the window text
+		// parse it
+
+		GameStatus * gs = new GameStatus(name, year, nextRound, nPlayer);
+
+		for (int i = 0; i<nPlayer; ++i) {
+			string pname;
+			bool finishedTurn;
+			Status status;
+			int score;
+
+			// TODO
+			// get the window text
+			// parse it
+
+			Player * p = new Player(pname, finishedTurn, status, score);
+			gs->setPlayer(i, *p);
+		}
+
+		return gs;
 	}
 
 

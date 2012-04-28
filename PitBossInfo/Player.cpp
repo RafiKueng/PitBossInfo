@@ -14,34 +14,39 @@ TODO:
 #include "StdAfx.h"
 #include "Player.h"
 
+#include <sstream>
 
 Player::Player(void) {
-	nr = -1;
-	name = "";
-	finishedTurn = false;
-	ping = -1;
-	score = -1;
-	next = NULL;
 }
 
-Player::Player(int _nr, std::string _name, bool _finishedTurn, int _ping, int _score, Player *_next) {
-	nr = _nr;
+Player::Player(string _name, bool _finishedTurn, Status _status, int _score) {
 	name = _name;
 	finishedTurn = _finishedTurn;
-	ping = _ping;
+	status = _status;
 	score = _score;
-	next = _next;
-}
-
-Player::Player(int _nr, std::string _name, bool _finishedTurn, int _ping, int _score) {
-	nr = _nr;
-	name = _name;
-	finishedTurn = _finishedTurn;
-	ping = _ping;
-	score = _score;
-	next = NULL;
 }
 
 Player::~Player(void)
 {
+}
+
+string Player::toString(){
+	
+	stringstream buf = stringstream();
+	struct tm * timeinfo;
+
+	buf << name<<" (";
+	switch (status) {
+		case ONLINE:	buf<<"onln, "; break;
+		case DISC:		buf<<"disc, "; break;
+		case AI:		buf<<"ai  , "; break;
+		case DEFEAT:	buf<<"dead, "; break;
+		case UNCLAIMED:	buf<<"uncl, "; break;
+	}
+	if (finishedTurn)	{buf<<"*, ";}
+	else				{buf<<" , ";}
+
+	buf << score<<")";
+
+	return buf.str();
 }
