@@ -9,6 +9,7 @@
 
 #include "stdafx.h"
 #include <conio.h>
+#include <time.h>
 
 #include "Spy.h"
 #include "Game.h"
@@ -28,8 +29,38 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//testing
 
+	/*testing translation
+	cout << Lang::TXT_GET_C(_DE, TXT_PITBOSS_TITLE, "NAAMMEE")<<endl;
 	wcout<<Lang::TXT_GET(_DE, TXT_PITBOSS_TITLE, _T("NAAMMEE"))<<endl;
 	wcout<<Lang::TXT_GET(_DE, TXT_PITBOSS_TITLE)<<endl;
+	*/
+
+	/* testing gamename parser
+	wchar_t *test = L"Testname - with dash - 4000 BC";
+	string name;// = new string();
+	int year; // = new int(0);
+	Watcher::parseNameYear(test, name, year);
+	cout << name;
+	cout << year;
+	*/
+
+	/* parse timer test
+	wchar_t *test = L"1:15:30";
+	time_t t, end;
+	Watcher::parseTimer(test, t, end);
+	struct tm * timeinfo = localtime ( end );
+	printf ( "timer: %i, endtime: %s", t, asctime(timeinfo) );
+	*/
+
+	/* test playerparser
+	wchar_t *test = L"Hans";
+	string name;
+	bool fin;
+	Watcher::parsePlayer(test, name, fin);
+	cout << name << (fin?" finished":" not finished");
+	*/
+
+
 
 	Watcher::init();
 

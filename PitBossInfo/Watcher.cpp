@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "Watcher.h"
 
+
+#include <sstream>
+#include <time.h>
 #include "GameStatus.h"
 
 
@@ -33,7 +36,9 @@ namespace Watcher {
 		
 
 		print(1, _T("seeking pitboss main window: "));
-		pitbossH = FindWindow(NULL, TXT_GET(LANGUAGE, TXT_PITBOSS_TITLE, _T(GAME_NAME)));
+		const TCHAR * windowname = TXT_GET(LANGUAGE, TXT_PITBOSS_TITLE, _T(GAME_NAME));
+		pitbossH = FindWindow(NULL, windowname);
+		delete [] windowname;
 
 		if (pitbossH != 0){
 			println(1, L"DONE");
@@ -149,6 +154,117 @@ namespace Watcher {
 
 
 
+	void parseNameYear(wchar_t *wcstr, string &name, int &year) {
+
+		int len = 0;
+		int pos = -1;
+
+		//convert to narrow char string
+		char *cstr = new char[MAX_CHAR_LEN];
+		wcstombs(cstr, wcstr, MAX_CHAR_LEN);
+		string str = string(cstr);
+		delete[] cstr; cstr = NULL;
+
+		//find the last dash and str length
+		pos = str.find_last_of('-');
+
+		//string *name = new string();
+		//string *year = new string();
+
+		name = str.substr(0, pos-1);
+
+		//get the pos after the year number
+		int pos2;
+		for (pos2 = pos+2; str[pos2] != ' '; ++pos2) {
+			cout << str[pos2]<<"\n";
+		}
+
+		string yearstr = str.substr(pos+2, pos2-pos-2);
+
+		stringstream sstr(yearstr);
+		sstr >> year;
+		//year = -5000;
+
+		string suffix = str.substr(pos2+1, str.size());
+		const char * tmp = TXT_GET_C(LANGUAGE, TXT_YEAR_BC);
+		if (suffix.compare(tmp) == 0){
+			year *= -1;
+		}
+		delete [] tmp;
+
+	}
+
+	void parseTimer(wchar_t *wcstr, time_t &timer, time_t &end) {
+
+		char *cstr = new char[MAX_CHAR_LEN];
+		wcstombs(cstr, wcstr, MAX_CHAR_LEN);
+		string str = string(cstr);
+		delete[] cstr; cstr = NULL;
+
+		int h=0, m=0, s=0;
+		stringstream sstr;
+		int offset = str.length()-6; //how many digits has the first number? *:XX:XX
+		
+		string h_str = str.substr(0, offset);
+		sstr = stringstream(h_str);
+		sstr >> h;
+
+		string m_str = str.substr(offset+1, 2);
+		sstr = stringstream(m_str);
+		sstr >> m;
+
+		string s_str = str.substr(offset+4, 2);
+		sstr = stringstream(s_str);
+		sstr >> s;
+
+		end = time(0) + h*60*60+m*60+s;
+		timer = h*60*60+m*60+s;
+	}
+
+	void parsePlayer(wchar_t *wcstr, string &name, bool &finished) {
+		
+		char *cstr = new char[MAX_CHAR_LEN];
+		wcstombs(cstr, wcstr, MAX_CHAR_LEN);
+		string str = string(cstr);
+		delete[] cstr; cstr = NULL;
+
+		if (str[0]=='*'){
+			name = str.substr(1,str.length()-1);
+			finished = true;
+		}
+		else {
+			name = str;
+			finished = false;
+		}
+
+	}
+
+	void parsePing(wchar_t *wcstr, Status &status) {
+
+		char *cstr = new char[MAX_CHAR_LEN];
+		wcstombs(cstr, wcstr, MAX_CHAR_LEN);
+		string str = string(cstr);
+		delete[] cstr; cstr = NULL;
+
+		if		(str.compare(TXT_GET_C(LANGUAGE, TXT_UNCLAIMED)) == 0)	{status = UNCLAIMED;}
+		else if (str.compare(TXT_GET_C(LANGUAGE, TXT_AI)) == 0)			{status = AI;}
+		else if (str.compare(TXT_GET_C(LANGUAGE, TXT_DISC)) == 0)		{status = DISC;}
+		else if (str.compare(TXT_GET_C(LANGUAGE, TXT_DEFEAT)) == 0)		{status = DEFEAT;}
+		else															{status = ONLINE;}
+	}
+
+	void parseScore(wchar_t *wcstr, int &score) {
+		char *cstr = new char[MAX_CHAR_LEN];
+		wcstombs(cstr, wcstr, MAX_CHAR_LEN);
+		stringstream ss = stringstream(cstr);
+		ss >> score;
+		delete[] cstr; cstr = NULL;
+
+	}
+
+
+
+
 	void printHandleInfo(HWND hwnd){
 		/*
 		wchar_t class_name[80];
@@ -159,4 +275,10 @@ namespace Watcher {
 		wcout <<"   Class name: "<<class_name<<endl;
 		*/
 	}
+
+
+
+
+
+
 }

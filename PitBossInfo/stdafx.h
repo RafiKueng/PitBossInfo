@@ -21,6 +21,7 @@
 
 #define GAME_NAME "Luemmelparty 6"
 #define LANGUAGE _EN
+#define MAX_CHAR_LEN 80 /*maximum length of some chars*/
 
 
 // TODO: Hier auf zusätzliche Header, die das Programm erfordert, verweisen.
@@ -32,3 +33,6 @@
 using std::string;
 using namespace Helper;
 using namespace Lang;
+
+
+enum Status {ONLINE, DISC, AI, DEFEAT, UNCLAIMED};

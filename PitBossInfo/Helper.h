@@ -5,9 +5,6 @@
 
 #include <cstdarg>
 
-
-using std::string;
-
 namespace Helper
 {
 

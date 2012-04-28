@@ -5,13 +5,29 @@ namespace Lang {
 
 	TCHAR* en[] = {
 		_T("'%s' successfully saved\""),
-		_T("blabla_en")
+
+		_T("BC"),
+		_T("AD"),
+
+		_T("Unclaimed"),
+		_T("AI"),
+		_T("Unclaimed"),
+		_T("Disconnected"),
+		_T("???")
 	};
 
 
 	TCHAR* de[] = {
 		_T("'%s' erfolgreich gespeichert\""),
-		_T("blabla_de")
+
+		_T("v. Chr."),
+		_T("n. Chr."),
+
+		_T("???"),
+		_T("KI"),
+		_T("???"),
+		_T("???"),
+		_T("???")
 	};
 
 
@@ -48,9 +64,25 @@ namespace Lang {
 		TCHAR buffer [256];
 		wsprintf(buffer, table[id], str);*/
 
-		TCHAR * buffer = new TCHAR [256]; //this is a memoryleak...
+		TCHAR * buffer = new TCHAR [MAX_CHAR_LEN]; //this is a memoryleak...
 		wsprintf(buffer, TXT_GET(lang, id), str);
 		return buffer;
+	}
+
+	const char * TXT_GET_C (LANG lang, ID id)	{
+		char *cstr = new char [MAX_CHAR_LEN];
+		wcstombs(cstr, TXT_GET(lang, id), MAX_CHAR_LEN);
+		return cstr;
+	}
+
+	const char * TXT_GET_C (LANG lang, ID id, char * str){
+		char *cstr = new char [MAX_CHAR_LEN];
+		wcstombs(cstr, TXT_GET(lang, id), MAX_CHAR_LEN);
+		
+		char *buf = new char [MAX_CHAR_LEN];
+		sprintf(buf, cstr, str);
+		delete [] cstr;
+		return buf;
 	}
 
 }
