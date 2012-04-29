@@ -87,6 +87,7 @@ namespace Watcher {
 		EnumChildWindows(playerpanelH, setPlayerHandles, 0);
 		childCount /= 8; //there are 8 elements per player
 		println(1, L"   found #children: ", childCount);
+		nPlayer = childCount; 
 	}
 
 
@@ -150,13 +151,19 @@ namespace Watcher {
 
 		string name;
 		int year;
-		time_t nextRound;
+		time_t timer, nextRound;
 
-		// TODO
-		// get the window text
-		// parse it
+		wchar_t nameyearstr[MAX_CHAR_LEN];
+		wchar_t timestr[MAX_CHAR_LEN];
+
+		GetWindowText(nameyearH,nameyearstr,sizeof(nameyearstr));
+		GetWindowText(timeH,timestr,sizeof(timestr));
+
+		parseNameYear(nameyearstr, name, year);
+		parseTimer(timestr, timer, nextRound);
 
 		GameStatus * gs = new GameStatus(name, year, nextRound, nPlayer);
+
 
 		for (int i = 0; i<nPlayer; ++i) {
 			string pname;
@@ -164,9 +171,17 @@ namespace Watcher {
 			Status status;
 			int score;
 
-			// TODO
-			// get the window text
-			// parse it
+			wchar_t playerstr[MAX_CHAR_LEN];
+			wchar_t pingstr[MAX_CHAR_LEN];
+			wchar_t scorestr[MAX_CHAR_LEN];
+		
+			GetWindowText(PlayerH[i].nameH,  playerstr, sizeof(playerstr));
+			GetWindowText(PlayerH[i].pingH,  pingstr,   sizeof(pingstr));
+			GetWindowText(PlayerH[i].scoreH, scorestr,  sizeof(scorestr));
+
+			parsePlayer(playerstr, pname, finishedTurn);
+			parsePing(pingstr, status);
+			parseScore(scorestr, score);
 
 			Player * p = new Player(pname, finishedTurn, status, score);
 			gs->setPlayer(i, *p);
@@ -199,7 +214,7 @@ namespace Watcher {
 		//get the pos after the year number
 		int pos2;
 		for (pos2 = pos+2; str[pos2] != ' '; ++pos2) {
-			cout << str[pos2]<<"\n";
+			//cout << str[pos2]<<"\n";
 		}
 
 		string yearstr = str.substr(pos+2, pos2-pos-2);

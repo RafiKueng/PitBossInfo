@@ -42,12 +42,15 @@ string GameStatus::toString(){
 
 	buf << "Gamestatus:\n";
 	buf << "  name: "+name << "\n";
-	buf << "  year: "+year << "\n";
-	buf << "  nextRound: " + nextRound << "\n";
+	//buf << "  year: "+year << "\n";
+	char bufff[MAX_CHAR_LEN];
+	sprintf(bufff,"%d",year);
+	buf << "  year: " + string(bufff) << "\n";
+	//buf << "  nextRound: " + nextRound << "\n";
 	buf << "  nextRound: "; buf << asctime(localtime(&nextRound)) << "\n"; 
 
 	for (int i =0; i<nPlayer;++i){
-		buf << "  P"<<i<<": "<<player[i].toString(); 
+		buf << "    P"<<i<<": "<<player[i].toString()<<"\n"; 
 	}
 		
 	return buf.str();

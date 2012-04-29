@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GameStatus.h"
+
 using std::string;
 
 namespace Watcher {
@@ -24,6 +26,8 @@ namespace Watcher {
 	void setHandles();
 	BOOL CALLBACK setPlayerHandles(HWND hwnd, LPARAM lparam);
 	void printHandleInfo(HWND hwnd); //debug function
+
+	GameStatus* getStatus();
 
 	//parser functions, each gets input str and sets differen output
 	void parseNameYear(wchar_t *str, string &name, int &year);

@@ -17,7 +17,7 @@ public:
 
 private:
 	Game *game;
-	string * path;
+	string *path;
 	//ofstream file;
 };
 

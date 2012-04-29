@@ -22,7 +22,7 @@ namespace Helper {
 
 	void println (int lvl, LPCTSTR lpOutputString, ... )
 	{
-		if (lvl >= VERBOSE_LEVEL){
+		if (lvl <= VERBOSE_LEVEL){
 			va_list argptr;
 			va_start(argptr, lpOutputString);
 

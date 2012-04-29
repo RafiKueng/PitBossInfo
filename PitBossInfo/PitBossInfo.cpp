@@ -3,7 +3,7 @@
 *
 * author:		rafael kueng <rafi.kueng@gmx.ch>
 * license:		DWYWWI - do whatever you want with it (but please give me credit)
-* version:		v0.1
+* version:		v1.0 beta1
 * timestamp:	2012-04-23--22:45
 *********************************************************************************************/
 
@@ -21,19 +21,27 @@ using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	
 	// old stuff for testing
+	//-----------------------------------------------------
+
 	//Spy * mySpy = new Spy();
 	//cout << *mySpy->getWindowList();
 
+	/* test complete watcher
+	Watcher::init();
+	GameStatus *gs = Watcher::getStatus();
+	cout << gs->toString();
+	*/
 
-	//testing
-
+	/* time fcn testing
 	time_t rawtime;
 	struct tm * timeinfo;
 
 	time ( &rawtime );
 	timeinfo = localtime ( &rawtime );
 	printf ( "Current local time and date: %s", asctime (timeinfo) );
+	*/
 
 	/*testing translation
 	cout << Lang::TXT_GET_C(_DE, TXT_PITBOSS_TITLE, "NAAMMEE")<<endl;
@@ -67,31 +75,31 @@ int _tmain(int argc, _TCHAR* argv[])
 	*/
 
 
-
-	Watcher::init();
-
-
-
-	// new part, starting from here
+	// main programm / main loop
+	// -----------------------------------------------------------------------------------
 
 	Game *thisGame = new Game();
 	OutputModule *logger = new Logger(thisGame);
+	logger->setup(new string("D:\\civlog.txt"));
 
-	if (thisGame->initSuccessful()){
-		cout << "game inti not sucessful, aborting"<<endl;
+	if (!thisGame->initSuccessful()){
+		println(0,L"game init not sucessful, aborting");
 		return 0;
 	}
 
+	println (0, L"Init successfull, starting mainloop");
+	println (0, L"to stop, please press 'ESC'");
+
 	while (true) {
-		cout << "in loop, checking"<<endl;
+		println(1,L"in mainloop, checking for key");
 		if (_kbhit()){
 			char key = _getch();
 			if (key == 27) {
-				cout << "Pressed esc, EXITING PROGRAM"<<endl;
+				println(0,L"Pressed esc, EXITING PROGRAM");
 				break;
 			}
 			else {
-				cout << "to stop the program, please press esc and not: " << _getch() << endl;
+				println(0,L"to stop the program, please press esc and not: %i", _getch());
 			}
 		}
 
@@ -100,12 +108,12 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		//updateing the outputs
 		logger->write();
-		//dbWriter.writeToDB(thisGame->getEvents())
+		//dbWriter.writeToDB()
 
 
 		// waiting some time
-		cout << "getting some sleep (2s)"<<endl;
-		Sleep(2000);	//using the winapi sleep to not overheat my server...
+		println(2,L"getting some sleep (%i ms)", SLEEPTIME);
+		Sleep(SLEEPTIME);	//using the winapi sleep to not overheat my server...
 	}
 
 

@@ -18,12 +18,15 @@
 
 //settings
 #define MAX_PLAYER 32
-#define VERBOSE_LEVEL 1 /*verbose level: -1 print nothing, 0: normal runtime, 1: standart debug, 2: debug every detail*/
+#define VERBOSE_LEVEL 2 /*verbose level: -1 print nothing, 0: normal runtime, 1: standart debug, 2: debug every detail*/
 
-#define GAME_NAME "Luemmelparty 6"
+#define GAME_NAME "long name - special chars"
 #define LANGUAGE _EN
-#define MAX_CHAR_LEN 80 /*maximum length of some chars*/
 
+
+//system settings (no need to change unless you know exactly what you do...
+#define MAX_CHAR_LEN 255 /*maximum length of some chars*/
+#define SLEEPTIME 2000
 
 // TODO: Hier auf zusätzliche Header, die das Programm erfordert, verweisen.
 #include "Helper.h"
@@ -36,4 +39,5 @@ using namespace Helper;
 using namespace Lang;
 
 
+//enums
 enum Status {ONLINE, DISC, AI, DEFEAT, UNCLAIMED};

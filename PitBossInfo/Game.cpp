@@ -1,8 +1,14 @@
 #include "StdAfx.h"
 #include "Game.h"
+#include "Watcher.h"
 
 
 Game::Game(void) {
+	_initSuccessful = false;
+	_gameStatus = 0;
+	Watcher::init();
+	_gameStatus = Watcher::getStatus();
+	_initSuccessful = true;
 }
 
 
@@ -12,12 +18,13 @@ Game::~Game(void) {
 
 
 void Game::update() {
-
+	delete _gameStatus;
+	_gameStatus = Watcher::getStatus();
 }
 
 
 GameStatus* Game::getStatus() {
-	return &this->gameStatus;
+	return this->_gameStatus;
 }
 
 
@@ -30,5 +37,5 @@ bool Game::initSuccessful(){
 	//if (this is not good){return false;}
 	//...
 
-	return true;
+	return _initSuccessful;
 }

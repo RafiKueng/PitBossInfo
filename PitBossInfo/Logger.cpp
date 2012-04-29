@@ -14,9 +14,10 @@ Logger::~Logger(void)
 
 
 
-void Logger::setup(string *_path) {
+void Logger::setup(string * _path) {
 	this->path = path;
-	this->path = new string("C:\\") ;
+	this->path = new string("D:\\civstat.log") ;
+
 
 
 }
@@ -25,6 +26,8 @@ void Logger::setup(string *_path) {
 void Logger::write() {
 
 	GameStatus *stat = game->getStatus();
+
+	cout << *path;
 
 	fstream file(*path, ios_base::out | ios_base::trunc); //output and overwrite the file
 	file << stat->toString();

@@ -44,7 +44,7 @@ string Player::toString(){
 		case UNCLAIMED:	buf<<"uncl, "; break;
 	}
 	if (finishedTurn)	{buf<<"*, ";}
-	else				{buf<<" , ";}
+	else				{buf<<"_, ";}
 
 	buf << score<<")";
 
