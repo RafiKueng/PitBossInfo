@@ -5,26 +5,24 @@
 
 Game::Game(void) {
 	_initSuccessful = false;
-	_gameStatus = 0;
 	Watcher::init();
-	_gameStatus = Watcher::getStatus();
 	_initSuccessful = true;
 }
 
 
 Game::~Game(void) {
+	//delete _gameStatus;
 }
 
 
 
 void Game::update() {
-	delete _gameStatus;
 	_gameStatus = Watcher::getStatus();
 }
 
 
 GameStatus* Game::getStatus() {
-	return this->_gameStatus;
+	return &(this->_gameStatus);
 }
 
 

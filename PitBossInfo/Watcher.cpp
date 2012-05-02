@@ -35,7 +35,7 @@ namespace Watcher {
 		
 
 		print(1, _T("seeking pitboss main window: "));
-		const TCHAR * windowname = TXT_GET(LANGUAGE, TXT_PITBOSS_TITLE, _T(GAME_NAME));
+		const TCHAR * windowname = TXT_GET_WS(LANGUAGE, TXT_PITBOSS_TITLE, _T(GAME_NAME));
 		pitbossH = FindWindow(NULL, windowname);
 		delete [] windowname;
 
@@ -147,7 +147,7 @@ namespace Watcher {
 	}
 
 
-	GameStatus* getStatus() {
+	GameStatus getStatus() {
 
 		string name;
 		int year;
@@ -162,7 +162,7 @@ namespace Watcher {
 		parseNameYear(nameyearstr, name, year);
 		parseTimer(timestr, timer, nextRound);
 
-		GameStatus * gs = new GameStatus(name, year, nextRound, nPlayer);
+		GameStatus gs = GameStatus(name, year, nextRound, nPlayer);
 
 
 		for (int i = 0; i<nPlayer; ++i) {
@@ -171,20 +171,27 @@ namespace Watcher {
 			Status status;
 			int score;
 
-			wchar_t playerstr[MAX_CHAR_LEN];
-			wchar_t pingstr[MAX_CHAR_LEN];
-			wchar_t scorestr[MAX_CHAR_LEN];
+			wchar_t * playerstr = new wchar_t[MAX_CHAR_LEN];
+			wchar_t * pingstr = new wchar_t[MAX_CHAR_LEN];
+			wchar_t * scorestr = new wchar_t[MAX_CHAR_LEN];
 		
-			GetWindowText(PlayerH[i].nameH,  playerstr, sizeof(playerstr));
-			GetWindowText(PlayerH[i].pingH,  pingstr,   sizeof(pingstr));
-			GetWindowText(PlayerH[i].scoreH, scorestr,  sizeof(scorestr));
+			GetWindowText(PlayerH[i].nameH,  playerstr, MAX_CHAR_LEN);
+			GetWindowText(PlayerH[i].pingH,  pingstr,   MAX_CHAR_LEN);
+			GetWindowText(PlayerH[i].scoreH, scorestr,  MAX_CHAR_LEN);
 
 			parsePlayer(playerstr, pname, finishedTurn);
 			parsePing(pingstr, status);
 			parseScore(scorestr, score);
 
-			Player * p = new Player(pname, finishedTurn, status, score);
-			gs->setPlayer(i, *p);
+			delete[] playerstr;
+			delete[] pingstr;
+			delete[] scorestr;
+
+			//Player p = new Player(pname, finishedTurn, status, score);
+			gs.setPlayer(i, pname, finishedTurn, status, score);
+
+
+
 		}
 
 		return gs;
@@ -228,7 +235,7 @@ namespace Watcher {
 		if (suffix.compare(tmp) == 0){
 			year *= -1;
 		}
-		delete [] tmp;
+		//delete [] tmp;
 
 	}
 

@@ -6,11 +6,13 @@ class GameStatus
 {
 public:
 
+	static int counter;
+
 	string name;
 	int year;
 	time_t nextRound;
 	int nPlayer;
-	Player * player;
+	vector<Player> player;
 
 
 	GameStatus(void);

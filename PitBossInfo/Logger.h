@@ -12,12 +12,12 @@ public:
 	Logger(Game *_game);
 	~Logger(void);
 
-	void setup(string *path);
+	void setup(string path);
 	void write();
 
 private:
 	Game *game;
-	string *path;
+	string path;
 	//ofstream file;
 };
 

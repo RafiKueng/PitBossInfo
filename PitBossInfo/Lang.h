@@ -14,28 +14,36 @@ namespace Lang
 		TXT_AI,
 		TXT_LOGIN,
 		TXT_DISC,
-		TXT_DEFEAT
+		TXT_DEFEAT,
+
+		TXT_N_ENTRIES //this determines how many entries this enum has
 	};
 
 	enum LANG {
-		_std, _EN, _DE };
+		_EN,
+		_DE,
+
+		_N_LANG //saves the number of laanguages
+	};
 
 
+	void init();
+	void cleanUp();
 
-
+	/*
 	const TCHAR * EN (ID id);
 	const TCHAR * EN (ID id, TCHAR * str);
 
 	const TCHAR * DE (ID id);
 	const TCHAR * DE (ID id, TCHAR * str);
+	*/
 
 
 
-
-	const TCHAR * TXT_GET (LANG lang, ID id);
-	const TCHAR * TXT_GET (LANG lang, ID id, TCHAR * str);
+	const TCHAR * TXT_GET_W (LANG lang, ID id);
+	const TCHAR * TXT_GET_WS (LANG lang, ID id, TCHAR * str);
 	const char * TXT_GET_C (LANG lang, ID id);
-	const char * TXT_GET_C (LANG lang, ID id, char * str);
+	const char * TXT_GET_CS (LANG lang, ID id, char * str);
 
 }
 

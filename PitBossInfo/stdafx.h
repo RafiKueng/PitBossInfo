@@ -14,6 +14,21 @@
 #include <windows.h>
 #include <assert.h>
 #include <time.h>
+#include <vector>
+
+//memory leak detection
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+//remap new for the memleak detect to work
+#ifdef _DEBUG
+   #ifndef DBG_NEW
+      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+      #define new DBG_NEW
+   #endif
+#endif  // _DEBUG
+
 
 
 //settings
@@ -35,6 +50,7 @@
 
 //namespaces
 using std::string;
+using std::vector;
 using namespace Helper;
 using namespace Lang;
 

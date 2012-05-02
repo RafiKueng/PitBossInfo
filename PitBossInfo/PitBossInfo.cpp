@@ -78,9 +78,14 @@ int _tmain(int argc, _TCHAR* argv[])
 	// main programm / main loop
 	// -----------------------------------------------------------------------------------
 
+	//_CrtSetBreakAlloc(299);
+
+	Lang::init();
+
 	Game *thisGame = new Game();
 	OutputModule *logger = new Logger(thisGame);
-	logger->setup(new string("D:\\civlog.txt"));
+	logger->setup(string("D:\\civlog.txt"));
+
 
 	if (!thisGame->initSuccessful()){
 		println(0,L"game init not sucessful, aborting");
@@ -90,7 +95,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	println (0, L"Init successfull, starting mainloop");
 	println (0, L"to stop, please press 'ESC'");
 
-	while (true) {
+	int counter=0;
+
+	while (counter<100) {
+
+		counter++;
+
 		println(1,L"in mainloop, checking for key");
 		if (_kbhit()){
 			char key = _getch();
@@ -116,6 +126,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		Sleep(SLEEPTIME);	//using the winapi sleep to not overheat my server...
 	}
 
+
+	Lang::cleanUp();
+
+	delete thisGame;
+	delete logger;
+
+	//show memory leak report
+	_CrtDumpMemoryLeaks();
 
 	return 0;
 }

@@ -9,7 +9,7 @@ public:
 	int score;
 
 	Player(void);
-	Player(string name, bool finishedTurn, Status status, int score);
+	Player(string &name, bool &finishedTurn, Status &status, int &score);
 
 	~Player(void);
 

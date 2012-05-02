@@ -13,7 +13,7 @@ public:
 	bool initSuccessful();
 
 private:
-	GameStatus * _gameStatus;
+	GameStatus _gameStatus;
 	bool _initSuccessful;
 
 };

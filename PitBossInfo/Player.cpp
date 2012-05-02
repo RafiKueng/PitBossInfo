@@ -19,7 +19,7 @@ TODO:
 Player::Player(void) {
 }
 
-Player::Player(string _name, bool _finishedTurn, Status _status, int _score) {
+Player::Player(string &_name, bool &_finishedTurn, Status &_status, int &_score) {
 	name = _name;
 	finishedTurn = _finishedTurn;
 	status = _status;
@@ -28,25 +28,35 @@ Player::Player(string _name, bool _finishedTurn, Status _status, int _score) {
 
 Player::~Player(void)
 {
+	cout << "delete player obj\n";
 }
 
 string Player::toString(){
 	
 	stringstream buf = stringstream();
-	struct tm * timeinfo;
+	//struct tm * timeinfo;
 
-	buf << name<<" (";
+	if (finishedTurn)	{buf<<"[X] ";}
+	else				{buf<<"[ ] ";}
+
+	char * tmpname = new char[16];//{". . . . . . . ."};
+	sprintf(tmpname, "%-15.15s", name.c_str());
+	buf << 	tmpname << " (";
+	delete [] tmpname;
+
 	switch (status) {
-		case ONLINE:	buf<<"onln, "; break;
-		case DISC:		buf<<"disc, "; break;
-		case AI:		buf<<"ai  , "; break;
-		case DEFEAT:	buf<<"dead, "; break;
-		case UNCLAIMED:	buf<<"uncl, "; break;
+		case ONLINE:	buf<<"online      , "; break;
+		case DISC:		buf<<"disconnected, "; break;
+		case AI:		buf<<"ai          , "; break;
+		case DEFEAT:	buf<<"defeated    , "; break;
+		case UNCLAIMED:	buf<<"unclaimed   , "; break;
 	}
-	if (finishedTurn)	{buf<<"*, ";}
-	else				{buf<<"_, ";}
+	
+	char *tmpscore = new char[6]; //one additional \0 at the end...
+	sprintf(tmpscore, "%5i", score);
+	buf << tmpscore << ")";
+	delete[] tmpscore;
 
-	buf << score<<")";
 
 	return buf.str();
 }
