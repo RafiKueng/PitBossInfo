@@ -55,3 +55,7 @@ packages/
 #ncrunch
 *ncrunch*
 *crunch*.local.xml
+
+
+#backup files from merge
+*.orig

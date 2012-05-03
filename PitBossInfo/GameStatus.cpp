@@ -1,15 +1,13 @@
 #include "StdAfx.h"
 #include "GameStatus.h"
+#include "time.h"
 
 #include <sstream>
-
-int GameStatus::counter = 0;
 
 
 GameStatus::GameStatus(void)
 {
 }
-
 
 GameStatus::GameStatus(string _name, int _year, time_t _nextRound, int _nPlayer)
 {
@@ -41,6 +39,10 @@ void GameStatus::setPlayer(int id, string name, bool finishedTurn, Status status
 string GameStatus::toString(){
 	
 	stringstream buf = stringstream();
+	struct tm * timeinfo;
+	
+	time_t rawCurrenttime;
+  	time ( &rawCurrenttime );
 
 	buf << "\n G A M E S T A T U S:\n";
 	buf << "--------------------------------------------------\n\n";
@@ -51,6 +53,7 @@ string GameStatus::toString(){
 	buf << "  year:       " + string(bufff) << "\n";
 
 	buf << "  nextRound:  "; buf << asctime(localtime(&nextRound)) << "\n"; 
+	buf << "  updated:    "; buf << asctime(localtime(&rawCurrenttime)) << "\n";
 
 	for (int i =0; i<nPlayer;++i){
 		char bufid[3];

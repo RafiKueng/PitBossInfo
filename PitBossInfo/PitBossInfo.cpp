@@ -82,10 +82,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	Lang::init();
 
 	Game *thisGame = new Game();
-	OutputModule *logger = new Logger(thisGame);
-	//logger->connect(thisGame);
-	logger->setup(string("I:\\www\\htdocs\\civ4_pb_status\\stat.txt"));
 
+	OutputModule *logger = new Logger(thisGame);
+	logger->setup(string("I:\\www\\htdocs\\civ4_pb_status\\stat.txt"));
+    
+    OutputModule *logger2 = new HtmlLogger(thisGame);
+	logger2->setup(new string("D:\\civlog.html"));
 
 	if (!thisGame->initSuccessful()){
 		println(0,L"Main    : game init not sucessful, aborting");
@@ -120,6 +122,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		//updateing the outputs
 		logger->write();
+		logger2->write();
 		//dbWriter.writeToDB()
 
 
