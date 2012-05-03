@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Logger.h"
+#include "time.h"
 
 /*****
 write the status as a HTML file
@@ -31,10 +32,12 @@ void HtmlLogger::write() {
 	fstream file(*path, ios_base::out | ios_base::trunc); //output and overwrite the file
 	
 	stringstream buf = stringstream();
+	time_t rawCurrenttime;
+	struct tm * timeinfo;
+	time ( &rawCurrenttime );
+	
 	
 	buf << "<html><body>";
-	
-	
 	
 	buf << "<h1>Gamestatus</h1>\n";
 	
@@ -49,13 +52,10 @@ void HtmlLogger::write() {
 	
 	buf << "<li>nextRound: "; buf << asctime(localtime(&nextRound)) << "</li>\n"; 
 	
-	
-	time_t rawtime;
-  	struct tm * timeinfo;
-  	time ( &rawtime );
+	  	
 	
 	// when was this output file generated?
-	buf << "<li>updated: "; buf << asctime(localtime(&rawtime)) << "</li>\n";
+	buf << "<li>updated: "; buf << asctime(localtime(&rawCurrenttime)) << "</li>\n";
 	
 	buf << "</ul><br/><br/>";
 	
