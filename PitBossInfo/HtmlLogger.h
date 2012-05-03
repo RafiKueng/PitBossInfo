@@ -9,15 +9,16 @@ class HtmlLogger :
 	public OutputModule
 {
 public:
+	HtmlLogger();
 	HtmlLogger(Game *_game);
 	~HtmlLogger(void);
 
-	void setup(string *path);
+	void connect(Game *_game);
+	void setup(string path);
 	void write();
 
 private:
 	Game *game;
-	string *path;
-	//ofstream file;
+	string path;
 };
 

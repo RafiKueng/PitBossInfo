@@ -2,19 +2,23 @@
 * PBI - PitBossInfo
 *
 * author:		rafael kueng <rafi.kueng@gmx.ch>
-* license:		DWYWWI - do whatever you want with it (but please give me credit)
-* version:		v1.0 RC1
+*				beat durrer <the.holy.farmer@gmx.ch> (HTML logger)
+* license:		DWYWWI - do whatever you want with it (but please give us credit)
+* version:		v1.0 RC2
 * timestamp:	2012-05-03--02:30
+* changelog:	rc1: fixed memory leaks, formatted output
+*				rc2: added htmllogger (bdurrer)
 *********************************************************************************************/
 
 #include "stdafx.h"
 #include <conio.h>
 
 #include "Game.h"
-#include "Logger.h"
 #include "Watcher.h"
-
 #include "Lang.h"
+
+#include "Logger.h"
+#include "HtmlLogger.h"
 
 using namespace std;
 
@@ -87,7 +91,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	logger->setup(string("I:\\www\\htdocs\\civ4_pb_status\\stat.txt"));
     
     OutputModule *logger2 = new HtmlLogger(thisGame);
-	logger2->setup(new string("D:\\civlog.html"));
+	logger2->setup(string("I:\\www\\htdocs\\civ4_pb_status\\stat.html"));
 
 	if (!thisGame->initSuccessful()){
 		println(0,L"Main    : game init not sucessful, aborting");

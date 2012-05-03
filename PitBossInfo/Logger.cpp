@@ -3,7 +3,6 @@
 
 
 Logger::Logger() {
-	//this->game = _game;
 }
 
 Logger::Logger(Game * _game) {
@@ -12,7 +11,6 @@ Logger::Logger(Game * _game) {
 
 Logger::~Logger(void)
 {
-	//delete this->path;
 }
 
 void Logger::connect(Game *_game) {
@@ -26,7 +24,6 @@ void Logger::setup(string _path) {
 
 	println(0,L"Logger  : setup: setting output path to: %s", buf);
 	this->path = _path;
-	//this->path = string("D:\\civstat.log") ;
 }
 
 

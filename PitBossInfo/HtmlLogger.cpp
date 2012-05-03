@@ -1,10 +1,15 @@
 #include "StdAfx.h"
-#include "Logger.h"
-#include "time.h"
+#include "HtmlLogger.h"
+
+#include <sstream>
 
 /*****
 write the status as a HTML file
 ******/
+
+HtmlLogger::HtmlLogger() {
+}
+
 
 HtmlLogger::HtmlLogger(Game *_game) {
 	this->game = _game;
@@ -13,14 +18,21 @@ HtmlLogger::HtmlLogger(Game *_game) {
 
 HtmlLogger::~HtmlLogger(void)
 {
-	delete this->path;
 }
 
 
+void HtmlLogger::connect(Game *_game) {
+	this->game = _game;
+}
 
-void HtmlLogger::setup(string * _path) {
-	this->path = path;
-	//this->path = new string("D:\\civstat.html") ;
+
+void HtmlLogger::setup(string _path) {
+
+	wchar_t buf[255];
+	mbstowcs(buf, _path.c_str(),255);
+
+	println(0,L"Logger  : setup: setting output path to: %s", buf);
+	this->path = _path;
 }
 
 
@@ -28,12 +40,12 @@ void HtmlLogger::write() {
 
 	GameStatus *stat = game->getStatus();
 
-	cout << *path;
-	fstream file(*path, ios_base::out | ios_base::trunc); //output and overwrite the file
+	//cout << *path;
+	fstream file(path, ios_base::out | ios_base::trunc); //output and overwrite the file
 	
 	stringstream buf = stringstream();
 	time_t rawCurrenttime;
-	struct tm * timeinfo;
+	//struct tm * timeinfo;
 	time ( &rawCurrenttime );
 	
 	
@@ -43,16 +55,14 @@ void HtmlLogger::write() {
 	
 	// some generic infos about the game
 	buf << "<ul id='gamestatus'>"; 
-	buf << "<li>name: "+name << "</li>\n";
+	buf << "<li>name: "+stat->name << "</li>\n";
 	
 	
-	char bufff[MAX_CHAR_LEN];
-	sprintf(bufff,"%d",year);
-	buf << "<li>year: " + string(bufff) << "</li>\n";
+	char buf_year[MAX_CHAR_LEN];
+	sprintf(buf_year,"%d",stat->year);
+	buf << "<li>year: " + string(buf_year) << "</li>\n";
 	
-	buf << "<li>nextRound: "; buf << asctime(localtime(&nextRound)) << "</li>\n"; 
-	
-	  	
+	buf << "<li>nextRound: "; buf << asctime(localtime(&(stat->nextRound))) << "</li>\n"; 
 	
 	// when was this output file generated?
 	buf << "<li>updated: "; buf << asctime(localtime(&rawCurrenttime)) << "</li>\n";
@@ -69,31 +79,31 @@ void HtmlLogger::write() {
 	buf << "<th>Score</th>";
 	buf << "</thead>\n<tbody>\n";
 	
-	for (int i =0; i<nPlayer;++i){
+	for (int i =0; i<stat->nPlayer;++i){
 		buf << "<td>P"<<i<<"</td>";
 		
-		
+
 		buf << "<td>";
-		if (player[i].finishedTurn)	{buf<<"*, ";}
-		else						{buf<<"_, ";}
+		if (stat->player[i].finishedTurn)	{buf<<"*";}
+		else {buf<<"_";}
 		buf << "</td>";
 		
-		
-		buf << "<td>"<<player[i].name<<"</td>\n";
+
+		buf << "<td>"<<stat->player[i].name<<"</td>\n";
 		
 		
 		buf << "<td>";
-		switch (player[i].status) {
-			case ONLINE:	buf<<"onln, "; break;
-			case DISC:		buf<<"disc, "; break;
-			case AI:		buf<<"ai  , "; break;
-			case DEFEAT:	buf<<"dead, "; break;
-			case UNCLAIMED:	buf<<"uncl, "; break;
+		switch (stat->player[i].status) {
+			case ONLINE:	buf<<"online"; break;
+			case DISC:		buf<<"discconnected"; break;
+			case AI:		buf<<"ai"; break;
+			case DEFEAT:	buf<<"defeated, "; break;
+			case UNCLAIMED:	buf<<"unclaimed"; break;
 		}
 		buf << "</td>";
 		
-		buf << "<td>"<<player[i].score<<"</td>\n";
-		
+
+		buf << "<td>"<<stat->player[i].score<<"</td>\n";
 	}
 
 	buf << "\n</tbody>\n</table>\n";
@@ -101,5 +111,4 @@ void HtmlLogger::write() {
 	
 	file << buf.str();
 	file.close();
-
 }

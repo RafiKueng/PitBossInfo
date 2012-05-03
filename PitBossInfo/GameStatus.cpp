@@ -39,7 +39,6 @@ void GameStatus::setPlayer(int id, string name, bool finishedTurn, Status status
 string GameStatus::toString(){
 	
 	stringstream buf = stringstream();
-	struct tm * timeinfo;
 	
 	time_t rawCurrenttime;
   	time ( &rawCurrenttime );
