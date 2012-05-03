@@ -31,7 +31,7 @@ void HtmlLogger::setup(string _path) {
 	wchar_t buf[255];
 	mbstowcs(buf, _path.c_str(),255);
 
-	println(0,L"Logger  : setup: setting output path to: %s", buf);
+	println(0,L"HtmlLogger  : setup: setting output path to: %s", buf);
 	this->path = _path;
 }
 
@@ -45,7 +45,6 @@ void HtmlLogger::write() {
 	
 	stringstream buf = stringstream();
 	time_t rawCurrenttime;
-	//struct tm * timeinfo;
 	time ( &rawCurrenttime );
 	
 	
@@ -80,7 +79,7 @@ void HtmlLogger::write() {
 	buf << "</thead>\n<tbody>\n";
 	
 	for (int i =0; i<stat->nPlayer;++i){
-		buf << "<td>P"<<i<<"</td>";
+		buf << "<tr>\n<td>P"<<i<<"</td>";
 		
 
 		buf << "<td>";
@@ -103,7 +102,7 @@ void HtmlLogger::write() {
 		buf << "</td>";
 		
 
-		buf << "<td>"<<stat->player[i].score<<"</td>\n";
+		buf << "<td>"<<stat->player[i].score<<"</td>\n</tr>\n";
 	}
 
 	buf << "\n</tbody>\n</table>\n";

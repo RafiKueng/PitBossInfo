@@ -24,61 +24,7 @@ using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	
-	// old stuff for testing
-	//-----------------------------------------------------
-
-	//Spy * mySpy = new Spy();
-	//cout << *mySpy->getWindowList();
-
-	/* test complete watcher
-	Watcher::init();
-	GameStatus *gs = Watcher::getStatus();
-	cout << gs->toString();
-	*/
-
-	/* time fcn testing
-	time_t rawtime;
-	struct tm * timeinfo;
-
-	time ( &rawtime );
-	timeinfo = localtime ( &rawtime );
-	printf ( "Current local time and date: %s", asctime (timeinfo) );
-	*/
-
-	/*testing translation
-	cout << Lang::TXT_GET_C(_DE, TXT_PITBOSS_TITLE, "NAAMMEE")<<endl;
-	wcout<<Lang::TXT_GET(_DE, TXT_PITBOSS_TITLE, _T("NAAMMEE"))<<endl;
-	wcout<<Lang::TXT_GET(_DE, TXT_PITBOSS_TITLE)<<endl;
-	*/
-
-	/* testing gamename parser
-	wchar_t *test = L"Testname - with dash - 4000 BC";
-	string name;// = new string();
-	int year; // = new int(0);
-	Watcher::parseNameYear(test, name, year);
-	cout << name;
-	cout << year;
-	*/
-
-	/* parse timer test
-	wchar_t *test = L"1:15:30";
-	time_t t, end;
-	Watcher::parseTimer(test, t, end);
-	struct tm * timeinfo = localtime ( end );
-	printf ( "timer: %i, endtime: %s", t, asctime(timeinfo) );
-	*/
-
-	/* test playerparser
-	wchar_t *test = L"Hans";
-	string name;
-	bool fin;
-	Watcher::parsePlayer(test, name, fin);
-	cout << name << (fin?" finished":" not finished");
-	*/
-
-
-	// main programm / main loop
+	// main programm / init stuff
 	// -----------------------------------------------------------------------------------
 
 	//_CrtSetBreakAlloc(299);
@@ -87,11 +33,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Game *thisGame = new Game();
 
-	OutputModule *logger = new Logger(thisGame);
-	logger->setup(string("I:\\www\\htdocs\\civ4_pb_status\\stat.txt"));
+	OutputModule *txt_logger = new Logger(thisGame);
+	txt_logger->setup(string("I:\\www\\htdocs\\civ4_pb_status\\stat.txt"));
     
-    OutputModule *logger2 = new HtmlLogger(thisGame);
-	logger2->setup(string("I:\\www\\htdocs\\civ4_pb_status\\stat.html"));
+    OutputModule *html_logger = new HtmlLogger(thisGame);
+	html_logger->setup(string("I:\\www\\htdocs\\civ4_pb_status\\stat.html"));
 
 	if (!thisGame->initSuccessful()){
 		println(0,L"Main    : game init not sucessful, aborting");
@@ -103,11 +49,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	println (0, L"------------------------------------------------\n\n");
 	println (0, L"To stop, please press 'ESC' and wait for a while...");
 
-	int counter=0;
+	// main programm / main loop
+	// -----------------------------------------------------------------------------------
 
 	while (true) {
-
-		counter++;
 
 		println(2,L"in mainloop, checking for key");
 		if (_kbhit()){
@@ -125,9 +70,9 @@ int _tmain(int argc, _TCHAR* argv[])
 		thisGame->update();
 
 		//updateing the outputs
-		logger->write();
-		logger2->write();
-		//dbWriter.writeToDB()
+		txt_logger->write();
+		html_logger->write();
+		//db_logger.writeToDB()
 
 
 		// waiting some time
@@ -140,7 +85,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	Lang::cleanUp();
 
 	delete thisGame;
-	delete logger;
+	delete txt_logger;
+	delete html_logger;
 
 	//show memory leak report
 	//_CrtDumpMemoryLeaks();
