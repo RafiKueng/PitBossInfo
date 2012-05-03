@@ -11,9 +11,9 @@ namespace Lang {
 
 		_T("Unclaimed"),
 		_T("AI"),
-		_T("Unclaimed"),
+		_T("Online"),
 		_T("Disconnected"),
-		_T("???")
+		_T("Defeat")
 	};
 
 
@@ -23,11 +23,11 @@ namespace Lang {
 		_T("v. Chr."),
 		_T("n. Chr."),
 
-		_T("???"),
+		_T("Leer"),
 		_T("KI"),
-		_T("???"),
-		_T("???"),
-		_T("???")
+		_T("Online"),
+		_T("Unterbrochen"),
+		_T("Besiegt")
 	};
 
 	char *** cstr; //this table holds the char strings for each language

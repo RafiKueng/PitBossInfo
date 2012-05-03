@@ -2,24 +2,31 @@
 #include "Logger.h"
 
 
-Logger::Logger(Game *_game) {
-	this->game = _game;
+Logger::Logger() {
+	//this->game = _game;
 }
 
+Logger::Logger(Game * _game) {
+	this->game = _game;
+}
 
 Logger::~Logger(void)
 {
 	//delete this->path;
 }
 
-
+void Logger::connect(Game *_game) {
+	this->game = _game;
+}
 
 void Logger::setup(string _path) {
-	this->path = path;
-	this->path = string("D:\\civstat.log") ;
+	
+	wchar_t buf[255];
+	mbstowcs(buf, _path.c_str(),255);
 
-
-
+	println(0,L"Logger  : setup: setting output path to: %s", buf);
+	this->path = _path;
+	//this->path = string("D:\\civstat.log") ;
 }
 
 
@@ -27,7 +34,7 @@ void Logger::write() {
 
 	GameStatus *stat = game->getStatus();
 
-	cout << this->path << "\n";
+	//cout << this->path << "\n";
 
 	fstream file(this->path, ios_base::out | ios_base::trunc); //output and overwrite the file
 	file << stat->toString();

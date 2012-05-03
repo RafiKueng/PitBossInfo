@@ -5,12 +5,13 @@ class OutputModule
 {
 public:
 	OutputModule() {};
-	OutputModule(Game *game) {};
+	//virtual OutputModule(Game *game) {};
 	virtual ~OutputModule(void) {};
+	virtual void connect(Game *game) {};
 	virtual void setup(std::string args) {};
 	virtual void write() {};
 
 private:
-	Game game;
+	Game *game;
 };
 

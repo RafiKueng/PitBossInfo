@@ -16,15 +16,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Spy.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
@@ -57,9 +55,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="PitBossInfo.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Spy.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">

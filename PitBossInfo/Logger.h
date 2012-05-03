@@ -9,9 +9,11 @@ class Logger :
 	public OutputModule
 {
 public:
+	Logger();
 	Logger(Game *_game);
 	~Logger(void);
 
+	void connect(Game *_game);
 	void setup(string path);
 	void write();
 

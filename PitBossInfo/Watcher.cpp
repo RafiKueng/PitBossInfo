@@ -22,9 +22,8 @@ namespace Watcher {
 	*/
 
 	void init(){
-		print(0, L"init Watcher...");
-
-		
+		println(0, L"Watcher : Init...");
+				
 		childCount = 0;
 		nPlayer = 0;
 
@@ -34,7 +33,7 @@ namespace Watcher {
 		playerpanelH = 0;
 		
 
-		print(1, _T("seeking pitboss main window: "));
+		print(1, _T("Watcher : seeking pitboss main window: "));
 		const TCHAR * windowname = TXT_GET_WS(LANGUAGE, TXT_PITBOSS_TITLE, _T(GAME_NAME));
 		pitbossH = FindWindow(NULL, windowname);
 		delete [] windowname;
@@ -49,44 +48,45 @@ namespace Watcher {
 		}
 
 		//PlayerHWND PlayerH[MAX_PLAYER];
+		println(0, L"Watcher : Init successful: (found %2i players)",childCount);
 	}
 
 	void setHandles(){
 
 		//getting game name and year
-		print(1,L"getting handle - name and year: ");
+		print(2,L"getting handle - name and year: ");
 		nameyearH = GetWindow(pitbossH, GW_CHILD);
 		if (nameyearH!=0){println(1, L"DONE");}
 		else {
-			println(1, L"FAIL");
+			println(2, L"FAIL");
 			assert(nameyearH);
 		}
 		
 		// getting timer
-		print(1, L"getting handle - time: ");
+		print(2, L"getting handle - time: ");
 		timeH = GetWindow(nameyearH, GW_HWNDNEXT); //skipping the roundtimer button
 		timeH = GetWindow(timeH, GW_HWNDNEXT);
-		if (timeH!=0){println(1, L"DONE");}
+		if (timeH!=0){println(2, L"DONE");}
 		else {
-			println(1, L"FAIL");
+			println(2, L"FAIL");
 			assert(timeH);
 		}
 		
 		//getting player panel
-		print(1,L"getting handle - playerpanel : ");
+		print(2,L"getting handle - playerpanel : ");
 		playerpanelH = GetWindow(timeH, GW_HWNDNEXT);
-		if (playerpanelH!=0){println(1, L"DONE");}
+		if (playerpanelH!=0){println(2, L"DONE");}
 		else {
-			println(1, L"FAIL");
+			println(2, L"FAIL");
 			assert(playerpanelH);
 		}
 
 		//getting each player
 		childCount = 0;
-		println(1, L"getting handle - players: ");
+		print(2, L"getting handle - players:    ");
 		EnumChildWindows(playerpanelH, setPlayerHandles, 0);
 		childCount /= 8; //there are 8 elements per player
-		println(1, L"   found #children: ", childCount);
+		println(2, L"DONE\n     (found #players: %i)", childCount);
 		nPlayer = childCount; 
 	}
 
@@ -98,7 +98,7 @@ namespace Watcher {
 		int childType = childCount%8;
 		switch (childType) {
 			case 0:
-				print(1, L"   - found handle - player nr %i: [", playerNr);
+				print(1, L"\n   - found handle - player nr %2i: [", playerNr);
 				break;
 			case 2: //player name
 				PlayerH[playerNr].nameH = hwnd;
@@ -110,7 +110,7 @@ namespace Watcher {
 				break;
 			case 6: //score
 				PlayerH[playerNr].scoreH = hwnd;
-				println(1,L"; score: DONE]   DONE");
+				print(1,L"; score: DONE]   DONE");
 				break;
 			default:
 				break;
@@ -181,7 +181,7 @@ namespace Watcher {
 
 			parsePlayer(playerstr, pname, finishedTurn);
 			parsePing(pingstr, status);
-			parseScore(scorestr, score);
+			parseScore(scorestr, score, status);
 
 			delete[] playerstr;
 			delete[] pingstr;
@@ -294,16 +294,18 @@ namespace Watcher {
 		if		(str.compare(TXT_GET_C(LANGUAGE, TXT_UNCLAIMED)) == 0)	{status = UNCLAIMED;}
 		else if (str.compare(TXT_GET_C(LANGUAGE, TXT_AI)) == 0)			{status = AI;}
 		else if (str.compare(TXT_GET_C(LANGUAGE, TXT_DISC)) == 0)		{status = DISC;}
-		else if (str.compare(TXT_GET_C(LANGUAGE, TXT_DEFEAT)) == 0)		{status = DEFEAT;}
+		//else if (str.compare(TXT_GET_C(LANGUAGE, TXT_DEFEAT)) == 0)		{status = DEFEAT;}
 		else															{status = ONLINE;}
 	}
 
-	void parseScore(wchar_t *wcstr, int &score) {
+	void parseScore(wchar_t *wcstr, int &score, Status &status) {
 		char *cstr = new char[MAX_CHAR_LEN];
 		wcstombs(cstr, wcstr, MAX_CHAR_LEN);
 		stringstream ss = stringstream(cstr);
 		ss >> score;
 		delete[] cstr; cstr = NULL;
+		
+		if (score == 0) {status = DEFEAT;}
 
 	}
 

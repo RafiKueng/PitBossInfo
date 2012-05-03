@@ -3,14 +3,13 @@
 *
 * author:		rafael kueng <rafi.kueng@gmx.ch>
 * license:		DWYWWI - do whatever you want with it (but please give me credit)
-* version:		v1.0 beta1
-* timestamp:	2012-04-23--22:45
+* version:		v1.0 RC1
+* timestamp:	2012-05-03--02:30
 *********************************************************************************************/
 
 #include "stdafx.h"
 #include <conio.h>
 
-#include "Spy.h"
 #include "Game.h"
 #include "Logger.h"
 #include "Watcher.h"
@@ -84,32 +83,35 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Game *thisGame = new Game();
 	OutputModule *logger = new Logger(thisGame);
-	logger->setup(string("D:\\civlog.txt"));
+	//logger->connect(thisGame);
+	logger->setup(string("I:\\www\\htdocs\\civ4_pb_status\\stat.txt"));
 
 
 	if (!thisGame->initSuccessful()){
-		println(0,L"game init not sucessful, aborting");
+		println(0,L"Main    : game init not sucessful, aborting");
 		return 0;
 	}
 
-	println (0, L"Init successfull, starting mainloop");
-	println (0, L"to stop, please press 'ESC'");
+	println (0, L"------------------------------------------------");
+	println (0, L"Main    : Init successfull, starting mainloop...");
+	println (0, L"------------------------------------------------\n\n");
+	println (0, L"To stop, please press 'ESC' and wait for a while...");
 
 	int counter=0;
 
-	while (counter<100) {
+	while (true) {
 
 		counter++;
 
-		println(1,L"in mainloop, checking for key");
+		println(2,L"in mainloop, checking for key");
 		if (_kbhit()){
 			char key = _getch();
 			if (key == 27) {
-				println(0,L"Pressed esc, EXITING PROGRAM");
+				println(0,L"Pressed 'ESC', EXITING PROGRAM...");
 				break;
 			}
 			else {
-				println(0,L"to stop the program, please press esc and not: %i", _getch());
+				println(0,L"to stop the program, please press 'ESC'\n      ... and not: %c (charcode: %i)", _getch(), _getch());
 			}
 		}
 
@@ -126,6 +128,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		Sleep(SLEEPTIME);	//using the winapi sleep to not overheat my server...
 	}
 
+	print(0,L"\nShutting down....               ");
 
 	Lang::cleanUp();
 
@@ -133,7 +136,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	delete logger;
 
 	//show memory leak report
-	_CrtDumpMemoryLeaks();
+	//_CrtDumpMemoryLeaks();
+	println(0,L"DONE");
 
 	return 0;
 }

@@ -34,7 +34,7 @@ namespace Watcher {
 	void parseTimer(wchar_t *str, time_t &timer, time_t &end);
 	void parsePlayer(wchar_t *str, string &name, bool &finished);
 	void parsePing(wchar_t *str, Status &status);
-	void parseScore(wchar_t *str, int &score);
+	void parseScore(wchar_t *str, int &score, Status &status);
 
 
 

@@ -28,7 +28,6 @@ Player::Player(string &_name, bool &_finishedTurn, Status &_status, int &_score)
 
 Player::~Player(void)
 {
-	cout << "delete player obj\n";
 }
 
 string Player::toString(){
