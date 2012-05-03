@@ -16,10 +16,7 @@ Logger::~Logger(void)
 
 void Logger::setup(string * _path) {
 	this->path = path;
-	this->path = new string("D:\\civstat.log") ;
-
-
-
+	//this->path = new string("D:\\civstat.log") ;
 }
 
 

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "GameStatus.h"
+#include "time.h"
 
 #include <sstream>
 
@@ -39,6 +40,9 @@ string GameStatus::toString(){
 	
 	stringstream buf = stringstream();
 	struct tm * timeinfo;
+	
+	time_t rawCurrenttime;
+  	time ( &rawCurrenttime );
 
 	buf << "Gamestatus:\n";
 	buf << "  name: "+name << "\n";
@@ -48,6 +52,7 @@ string GameStatus::toString(){
 	buf << "  year: " + string(bufff) << "\n";
 	//buf << "  nextRound: " + nextRound << "\n";
 	buf << "  nextRound: "; buf << asctime(localtime(&nextRound)) << "\n"; 
+	buf << "  updated: "; buf << asctime(localtime(&rawCurrenttime)) << "\n";
 
 	for (int i =0; i<nPlayer;++i){
 		buf << "    P"<<i<<": "<<player[i].toString()<<"\n"; 
