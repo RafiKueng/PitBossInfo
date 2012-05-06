@@ -1,0 +1,46 @@
+
+body, table{ 
+	color: #000000;
+    font-family: Verdana,Arial,Sans-Serif;
+    font-size: 14px;
+}
+
+h1{ font-size: 20px; }
+
+#playerinfo td, #playerinfo th{ padding: 0 3px 0 5px }
+
+#playerinfo th{
+	text-align: left;
+	font-weight: bold;
+}
+
+/* nr column */
+#playerinfo  tr > td:first-child, #playerinfo .col1 { 
+	width: 35px;
+} 
+
+/* turn column */
+#playerinfo  tr > td:first-child + td, #playerinfo  tr > th:first-child + th, #playerinfo .col2  { 
+	width: 45px;
+	text-align: center;
+} 
+
+/* player column */
+#playerinfo  tr > td:first-child + td + td, #playerinfo .col3{ 
+	width: 160px;
+} 
+
+/* status column */
+#playerinfo  tr > td:first-child + td + td + td, #playerinfo .col4{ 
+	width: 110px;
+} 
+
+/* status column */
+#playerinfo  tr > td:last-child, #playerinfo  tr > th:last-child, #playerinfo .col5{ 
+	width: 50px;
+	text-align: right;
+} 
+
+#playerinfo  tr:first-child, #playerinfo thead{ background-color:#ccc; }
+#playerinfo  tr:nth-child(odd) td		{ background-color:#fff; }
+#playerinfo  tr:nth-child(even) td 		{ background-color:#eee; }

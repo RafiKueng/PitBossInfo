@@ -8,6 +8,7 @@
 * timestamp:	2012-05-03--02:30
 * changelog:	rc1: fixed memory leaks, formatted output
 *				rc2: added htmllogger (bdurrer)
+*				rc3: added stylesheet to html logger; w3c valid html, css (bdurrer, rafik)
 *********************************************************************************************/
 
 #include "stdafx.h"

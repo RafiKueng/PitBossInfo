@@ -47,14 +47,18 @@ void HtmlLogger::write() {
 	time_t rawCurrenttime;
 	time ( &rawCurrenttime );
 	
-	
-	buf << "<html><body>";
+	buf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
+	buf << "<html><head>\n";
+	buf << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n";
+	buf << "<link type=\"text/css\" rel=\"stylesheet\" href=\"stats.css\">\n";
+	buf << "<title>Gamestatus "<< stat->name <<"</title>";
+	buf << "</head><body>";
 	
 	buf << "<h1>Gamestatus</h1>\n";
 	
 	// some generic infos about the game
 	buf << "<ul id='gamestatus'>"; 
-	buf << "<li>name: "+stat->name << "</li>\n";
+	buf << "<li>name: " << stat->name << "</li>\n";
 	
 	
 	char buf_year[MAX_CHAR_LEN];
@@ -70,28 +74,33 @@ void HtmlLogger::write() {
 	
 	
 	// player stats in a table
-	buf << "\n<table border='0' id='playerinfo'><thead>";
+	buf << "\n<table border='0' id='playerinfo'>\n<thead>\n<tr>\n";
 	buf << "<th>Nr</th>";
 	buf << "<th>Turn</th>";
 	buf << "<th>Player</th>";
 	buf << "<th>Status</th>";
 	buf << "<th>Score</th>";
-	buf << "</thead>\n<tbody>\n";
+	buf << "</tr>\n</thead>\n<tbody>\n";
 	
 	for (int i =0; i<stat->nPlayer;++i){
-		buf << "<tr>\n<td>P"<<i<<"</td>";
+		buf << "<tr style='background-color: " << ( i%2==0 ? "#eee" : "#fff" ) << ";'>\n";
 		
-
-		buf << "<td>";
+		
+		buf << "<td class=\"col1\">P"<<i<<"</td>\n";
+		
+		
+		buf << "<td class=\"col2\">";
 		if (stat->player[i].finishedTurn)	{buf<<"*";}
 		else {buf<<"_";}
-		buf << "</td>";
+		buf << "</td>\n";
 		
 
-		buf << "<td>"<<stat->player[i].name<<"</td>\n";
+		buf << "<td class=\"col3\">";
+		buf << stat->player[i].name;
+		buf << "</td>\n";
 		
 		
-		buf << "<td>";
+		buf << "<td class=\"col4\">";
 		switch (stat->player[i].status) {
 			case ONLINE:	buf<<"online"; break;
 			case DISC:		buf<<"discconnected"; break;
@@ -99,10 +108,12 @@ void HtmlLogger::write() {
 			case DEFEAT:	buf<<"defeated, "; break;
 			case UNCLAIMED:	buf<<"unclaimed"; break;
 		}
-		buf << "</td>";
+		buf << "</td>\n";
 		
 
-		buf << "<td>"<<stat->player[i].score<<"</td>\n</tr>\n";
+		buf << "<td class=\"col5\">";
+		buf << stat->player[i].score;
+		buf << "</td>\n</tr>\n";
 	}
 
 	buf << "\n</tbody>\n</table>\n";
