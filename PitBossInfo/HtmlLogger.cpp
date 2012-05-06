@@ -50,6 +50,7 @@ void HtmlLogger::write() {
 	buf << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 	buf << "<html><head>\n";
 	buf << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n";
+	buf << "<meta http-equiv=\"refresh\" content=\"120\"> \n";
 	buf << "<link type=\"text/css\" rel=\"stylesheet\" href=\"stats.css\">\n";
 	buf << "<title>Gamestatus "<< stat->name <<"</title>";
 	buf << "</head><body>";
