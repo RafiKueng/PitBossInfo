@@ -78,6 +78,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Event.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameStatus.h" />
     <ClInclude Include="Helper.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="Watcher.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameStatus.cpp" />
     <ClCompile Include="Helper.cpp" />
