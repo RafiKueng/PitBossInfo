@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PitBossInfo", "PitBossInfo\PitBossInfo.vcxproj", "{1F2AFACA-E0C7-44B8-BF26-2E8186C563FE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4DDB9C8A-C4A7-4518-A470-0B88629D8B66} = {4DDB9C8A-C4A7-4518-A470-0B88629D8B66}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gloox 1.0", "libs\gloox-1.0\gloox.vcxproj", "{4DDB9C8A-C4A7-4518-A470-0B88629D8B66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,10 @@ Global
 		{1F2AFACA-E0C7-44B8-BF26-2E8186C563FE}.Debug|Win32.Build.0 = Debug|Win32
 		{1F2AFACA-E0C7-44B8-BF26-2E8186C563FE}.Release|Win32.ActiveCfg = Release|Win32
 		{1F2AFACA-E0C7-44B8-BF26-2E8186C563FE}.Release|Win32.Build.0 = Release|Win32
+		{4DDB9C8A-C4A7-4518-A470-0B88629D8B66}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4DDB9C8A-C4A7-4518-A470-0B88629D8B66}.Debug|Win32.Build.0 = Debug|Win32
+		{4DDB9C8A-C4A7-4518-A470-0B88629D8B66}.Release|Win32.ActiveCfg = Release|Win32
+		{4DDB9C8A-C4A7-4518-A470-0B88629D8B66}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,7 +7,7 @@ Event::Event(void)
 {
 }
 
-Event::Event(EventType et, int player, time_t time, int arg=-1)
+Event::Event(EventType et, int player, time_t time, int arg)
 {
 	this->type = et;
 	this->playerid = player;
