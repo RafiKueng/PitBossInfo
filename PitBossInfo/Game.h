@@ -4,7 +4,7 @@
 class Game
 {
 public:
-	Game(void);
+	Game(_TCHAR*);
 	~Game(void);
 
 	void update();

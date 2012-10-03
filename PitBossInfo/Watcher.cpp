@@ -21,7 +21,7 @@ namespace Watcher {
 	HWND pitbossH, nameyearH, timeH, playerpanelH;
 	*/
 
-	void init(){
+	void init(_TCHAR* gamename){
 		println(0, L"Watcher : Init...");
 				
 		childCount = 0;
@@ -34,7 +34,7 @@ namespace Watcher {
 		
 
 		print(1, _T("Watcher : seeking pitboss main window: "));
-		const TCHAR * windowname = TXT_GET_WS(LANGUAGE, TXT_PITBOSS_TITLE, _T(GAME_NAME));
+		const TCHAR * windowname = TXT_GET_WS(LANGUAGE, TXT_PITBOSS_TITLE, gamename);
 		pitbossH = FindWindow(NULL, windowname);
 		delete [] windowname;
 
@@ -273,7 +273,7 @@ namespace Watcher {
 		string str = string(cstr);
 		delete[] cstr; cstr = NULL;
 
-		if (str[0]=='*'){
+		if (str[0]=='*' && !(str[1]=='M' && str[2]=='O' && str[3]=='D' && str[4]=='*') ){
 			name = str.substr(1,str.length()-1);
 			finished = true;
 		}

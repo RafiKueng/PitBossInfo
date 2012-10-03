@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PitBossInfo", "PitBossInfo\PitBossInfo.vcxproj", "{1F2AFACA-E0C7-44B8-BF26-2E8186C563FE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testing", "testing\testing.vcxproj", "{34B6AAAD-BDC8-4E20-8175-9E5822D3F97D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{1F2AFACA-E0C7-44B8-BF26-2E8186C563FE}.Debug|Win32.Build.0 = Debug|Win32
 		{1F2AFACA-E0C7-44B8-BF26-2E8186C563FE}.Release|Win32.ActiveCfg = Release|Win32
 		{1F2AFACA-E0C7-44B8-BF26-2E8186C563FE}.Release|Win32.Build.0 = Release|Win32
+		{34B6AAAD-BDC8-4E20-8175-9E5822D3F97D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{34B6AAAD-BDC8-4E20-8175-9E5822D3F97D}.Debug|Win32.Build.0 = Debug|Win32
+		{34B6AAAD-BDC8-4E20-8175-9E5822D3F97D}.Release|Win32.ActiveCfg = Release|Win32
+		{34B6AAAD-BDC8-4E20-8175-9E5822D3F97D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

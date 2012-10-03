@@ -13,7 +13,7 @@ namespace Lang {
 		_T("AI"),
 		_T("Online"),
 		_T("Disconnected"),
-		_T("Defeat")
+		_T("Defeated")
 	};
 
 

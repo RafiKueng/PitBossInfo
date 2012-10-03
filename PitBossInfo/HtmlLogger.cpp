@@ -52,8 +52,9 @@ void HtmlLogger::write() {
 	buf << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n";
 	buf << "<meta http-equiv=\"refresh\" content=\"120\"> \n";
 	buf << "<link type=\"text/css\" rel=\"stylesheet\" href=\"stats.css\">\n";
-	buf << "<title>Gamestatus "<< stat->name <<"</title>";
-	buf << "</head><body>";
+	buf << "<title>Gamestatus "<< stat->name <<"</title>\n";
+	buf << "<script src=\"sorttable.js\"></script>\n";
+	buf << "</head>\n\n<body>\n";
 	
 	buf << "<h1>Gamestatus</h1>\n";
 	
@@ -75,7 +76,7 @@ void HtmlLogger::write() {
 	
 	
 	// player stats in a table
-	buf << "\n<table border='0' id='playerinfo'>\n<thead>\n<tr>\n";
+	buf << "\n<table border='0' id='playerinfo' class=\"sortable\">\n<thead>\n<tr>\n";
 	buf << "<th>Nr</th>";
 	buf << "<th>Turn</th>";
 	buf << "<th>Player</th>";
@@ -106,7 +107,7 @@ void HtmlLogger::write() {
 			case ONLINE:	buf<<"online"; break;
 			case DISC:		buf<<"discconnected"; break;
 			case AI:		buf<<"ai"; break;
-			case DEFEAT:	buf<<"defeated, "; break;
+			case DEFEAT:	buf<<"defeated"; break;
 			case UNCLAIMED:	buf<<"unclaimed"; break;
 		}
 		buf << "</td>\n";

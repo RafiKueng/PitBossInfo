@@ -3,9 +3,9 @@
 #include "Watcher.h"
 
 
-Game::Game(void) {
+Game::Game(_TCHAR* gamename) {
 	_initSuccessful = false;
-	Watcher::init();
+	Watcher::init(gamename);
 	_initSuccessful = true;
 }
 

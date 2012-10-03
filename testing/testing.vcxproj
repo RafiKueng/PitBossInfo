@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1F2AFACA-E0C7-44B8-BF26-2E8186C563FE}</ProjectGuid>
+    <ProjectGuid>{34B6AAAD-BDC8-4E20-8175-9E5822D3F97D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>PitBossInfo</RootNamespace>
+    <RootNamespace>testing</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -26,7 +26,6 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -64,7 +63,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -74,41 +72,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameStatus.h" />
-    <ClInclude Include="game_lp6.h" />
-    <ClInclude Include="game_lp7.h" />
-    <ClInclude Include="game_pclp1.h" />
-    <ClInclude Include="game_pclp2.h" />
-    <ClInclude Include="Helper.h" />
-    <ClInclude Include="HtmlLogger.h" />
-    <ClInclude Include="Lang.h" />
-    <ClInclude Include="Logger.h" />
-    <ClInclude Include="OutputModule.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Watcher.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameStatus.cpp" />
-    <ClCompile Include="Helper.cpp" />
-    <ClCompile Include="HtmlLogger.cpp" />
-    <ClCompile Include="Lang.cpp" />
-    <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="OutputModule.cpp" />
-    <ClCompile Include="PitBossInfo.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Watcher.cpp" />
+    <ClCompile Include="testing.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

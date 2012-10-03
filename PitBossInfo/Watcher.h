@@ -22,7 +22,7 @@ namespace Watcher {
 	static HWND pitbossH, nameyearH, timeH, playerpanelH;
 	
 
-	void init();
+	void init(_TCHAR*);
 	void setHandles();
 	BOOL CALLBACK setPlayerHandles(HWND hwnd, LPARAM lparam);
 	void printHandleInfo(HWND hwnd); //debug function

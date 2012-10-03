@@ -35,13 +35,23 @@
 #define MAX_PLAYER 32
 #define VERBOSE_LEVEL 0 /*verbose level: -1 print nothing, 0: normal runtime, 1: standart debug, 2: debug every detail*/
 
-#define GAME_NAME "Luemmelparty 6"
-#define LANGUAGE _DE
+#define LANGUAGE _EN
+
+
+// -- NOT USED ANYMORE ----
+//#define OUTPATH "I:\\www\\htdocs\\civ4_pb_status\\"
+//settings for particular game
+//#include "game_lp6.h"
+//#include "game_lp7.h"
+//#include "game_pclp1.h"
+//#include "game_pclp2.h"
+
+
 
 
 //system settings (no need to change unless you know exactly what you do...
 #define MAX_CHAR_LEN 255 /*maximum length of some chars*/
-#define SLEEPTIME 15000 /*timeout between checks in ms*/
+//#define SLEEPTIME 15000 /*timeout between checks in ms - OUTDATED - set in command line now*/
 
 
 
