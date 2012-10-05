@@ -33,5 +33,10 @@ namespace Helper {
 		}
 	}
 
-
+	void println (int lvl, string outputString)
+	{
+		if (lvl <= VERBOSE_LEVEL){
+			cout << outputString << endl;
+		}
+	}
 } //end namespace Helper

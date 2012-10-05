@@ -81,10 +81,6 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameStatus.h" />
-    <ClInclude Include="game_lp6.h" />
-    <ClInclude Include="game_lp7.h" />
-    <ClInclude Include="game_pclp1.h" />
-    <ClInclude Include="game_pclp2.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="HtmlLogger.h" />
     <ClInclude Include="Lang.h" />

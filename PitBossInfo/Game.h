@@ -18,6 +18,7 @@ public:
 private:
 	GameStatus _gameStatus;
 	bool _initSuccessful;
+	bool _firstRun;
 	vector<Event*> newEvents; //new events since last update
 	vector<Event*> thisYearsEvents;
 	vector<Event*> lastYearsEvents; //complete collection, gets saves for one update cycle then the event elements get deleted..

@@ -7,6 +7,8 @@ Game::Game(_TCHAR* gamename) {
 	_initSuccessful = false;
 	Watcher::init(gamename);
 	_initSuccessful = true;
+	_firstRun = true;
+
 }
 
 
@@ -17,28 +19,59 @@ Game::~Game(void) {
 
 
 void Game::update() {
+	//make the first run work to :)
+	if (_firstRun) {
+		_gameStatus = Watcher::getStatus();
+		_firstRun = false;
+	}
+
 	GameStatus newStatus = Watcher::getStatus();
 
 	Event * e;
 	time_t currentTime;
   	time ( &currentTime );
 	
+	//reset newEvents
+	newEvents.clear();
 	
 	// new round has begun
 	if (newStatus.year != _gameStatus.year) {
-		
-		
+		//clean up and delete old events
+		vector<Event*>::iterator it;
+		for ( it = lastYearsEvents.begin(); it != lastYearsEvents.end(); ) {
+			delete * it; //TODO: BUG HERE
+			it = lastYearsEvents.erase(it);
+		}
+		for (it = thisYearsEvents.begin();it != thisYearsEvents.end(); it++) {
+			lastYearsEvents.push_back(*it);
+		}
+		thisYearsEvents.clear();
 
+		//create new turn event
+		__years * yr = new __years(); //will be deleted on event destruction
+		yr->from = _gameStatus.year;
+		yr->to = newStatus.year;
+		e = new Event(NEW_TURN, currentTime, yr);
+		newEvents.push_back(e);
+		thisYearsEvents.push_back(e);
 	}
 
+
+	//check each player for changes in his status
 	for (int i = 0; i < newStatus.nPlayer; ++i) {
-		//for each player
+		
 		Player * pn = &(newStatus.player[i]); //new status player
 		Player * po = &(_gameStatus.player[i]); //old status player
 
 		//name change
 		if (pn->name.compare(po->name) != 0) {
-			e = new Event(NAME_CHANGE, i, currentTime);
+			__names * na = new __names();
+			na->player = i;
+			na->from = string(po->name);
+			na->to = string(pn->name);
+
+			e = new Event(PLAYER_NAME_CHANGE, currentTime, na);
+
 			newEvents.push_back(e);
 			thisYearsEvents.push_back(e);	
 		}
@@ -46,32 +79,46 @@ void Game::update() {
 		
 		//status changed
 		if (pn->status != po->status) {
+			__status * st = new __status();
+			st->player = i;
+			st->status = PlayerStatusChange(po->status + 5*pn->status); //check the table in /docs/status.ods
 
-			//TODO: ausfuellen
+			e = new Event(PLAYER_STATUS_CHANGE, currentTime, st);
+			newEvents.push_back(e);
+			thisYearsEvents.push_back(e);	
 		}
 
 
 		//player finished turn
 		if (!po->finishedTurn && pn->finishedTurn) {
-			e = new Event(FINISH_TURN, i, currentTime, newStatus.nPlayerFinished);
+			__status * st = new __status();
+			st->player = i;
+			st->status = PlayerStatusChange::FINISHED_TURN;
+
+			e = new Event(PLAYER_STATUS_CHANGE, currentTime, st);
+
 			newEvents.push_back(e);
 			thisYearsEvents.push_back(e);	
 		}
 
 
 		//score changed
-		if (pn->score < po->score) {
-			e = new Event(SCORE_DECR, i, currentTime, po->score-pn->score);
-			newEvents.push_back(e);
-			thisYearsEvents.push_back(e);
-		}
-		else if (pn->score > po->score) {
-			e = new Event(EventType::SCORE_INCR, i, currentTime, pn->score-po->score);
+		if (pn->score != po->score) {
+			__scores * sc = new __scores();
+			sc->player = i;
+			sc->from = po->score;
+			sc->to = pn->score;
+
+			e = new Event(PLAYER_SCORE_CHANGE, currentTime, sc);
 			newEvents.push_back(e);
 			thisYearsEvents.push_back(e);
 		}
 	}
 
+	println(2,L"got the following events:");
+	for(vector<Event*>::iterator it = newEvents.begin(); it != newEvents.end(); ++it) {
+		cout<<"   "<<(*it)->toString().c_str();
+	}
 
 
 	_gameStatus = newStatus;

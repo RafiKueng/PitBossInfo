@@ -7,40 +7,67 @@ Event::Event(void)
 {
 }
 
-Event::Event(EventType et, int player, time_t time, int arg=-1)
+Event::Event(EventType et, time_t time, void* args)
 {
 	this->type = et;
-	this->playerid = player;
 	this->timestamp = time;
-	this->arg = arg;
+	this->args = args;
 }
 
 Event::~Event(void)
 {
+	//clean up the data: either
+	delete this->args;
+	//or the complicated way:
+	switch (this->type){
+	case NEW_TURN              : {__years  * ptr = (__years*)args;  delete ptr; break;}
+	case PLAYER_STATUS_CHANGE  : {__status * ptr = (__status*)args; delete ptr; break;}
+	case PLAYER_SCORE_CHANGE   : {__scores * ptr = (__scores*)args; delete ptr; break;}
+	case PLAYER_NAME_CHANGE    : {__names  * ptr = (__names*)args;  delete ptr; break;}
+	};
 }
 
 
 string Event::toString()
 {
 	stringstream buf = stringstream();
-	
+
 	buf << "Event: ";
 
-	switch (this->type){
-		case LOGIN:			buf << "Login"; break;
-		case LOGOUT:		buf << "Logout"; break;
-		case SCORE_INCR:	buf << "Score incr"; break;
-		case SCORE_DECR:	buf << "Score decr"; break;
-		case FINISH_TURN:	buf << "Finished Turn"; break;
-		case NEW_TURN:		buf << "New Turn"; break;
-		case NAME_CHANGE:	buf << "Name change"; break;
-		case RETIRE:		buf << "Retire"; break;
-		case CLAIM_AI:		buf << "Claim AI"; break;
-		case ELIMINATED:	buf << "Eliminated"; break;
-	}
-	if (this->playerid!=-1){buf << ", playerid: "<<this->playerid;}
+	switch (this->type) {
+	case NEW_TURN: // a new year begun. __years
+		buf << "NEW TURN [from " << ((__years*)this->args)->from 
+			<< " to " << ((__years*)this->args)->from
+			<<"]";
+		break;
 
-	buf << " (" << asctime(localtime(&this->timestamp)) << ")";
+	case PLAYER_STATUS_CHANGE: {// a player changed his status, __status
+		
+		//todo: assign correct string here
+		string str = string("blabla");
+
+		buf << "STATUSCHANGE [pid: " << ((__status*)this->args)->player
+			<< " new status: " << ((__status*)this->args)->status
+			<< " (" << str << ")"
+			<< "]";
+		break;}
+
+	case PLAYER_SCORE_CHANGE: // a player changed his score, __scores
+		buf << "SCORECHANGE  [pid: "<< ((__scores*)this->args)->player
+			<< ", from: " << ((__scores*)this->args)->from
+			<< " to " << ((__scores*)this->args)->to
+			<< "]";
+		break;
+
+	case PLAYER_NAME_CHANGE: // a player changed his name, __names
+		buf << "NAMECHANGE  [pid: "<< ((__names*)this->args)->player
+			<< ", from: " << ((__names*)this->args)->from
+			<< " to: " << ((__names*)this->args)->to
+			<< "]";
+		break;
+	}
+
+	buf << " {@" << asctime(localtime(&this->timestamp)) << "}";
 
 	return buf.str();
 }
