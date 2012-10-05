@@ -64,6 +64,9 @@
     <ClInclude Include="game_pclp2.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -97,6 +100,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="HtmlLogger.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

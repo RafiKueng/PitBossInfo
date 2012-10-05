@@ -12,6 +12,7 @@ public:
 	int year;
 	time_t nextRound;
 	int nPlayer;
+	int nPlayerFinished;
 	vector<Player> player;
 
 

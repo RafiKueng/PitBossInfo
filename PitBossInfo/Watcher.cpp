@@ -164,6 +164,7 @@ namespace Watcher {
 
 		GameStatus gs = GameStatus(name, year, nextRound, nPlayer);
 
+		int nPlayerFinished = 0;
 
 		for (int i = 0; i<nPlayer; ++i) {
 			string pname;
@@ -190,10 +191,11 @@ namespace Watcher {
 			//Player p = new Player(pname, finishedTurn, status, score);
 			gs.setPlayer(i, pname, finishedTurn, status, score);
 
-
-
+			if (finishedTurn) {nPlayerFinished++;}
 		}
 
+		gs.nPlayerFinished = nPlayerFinished;
+		
 		return gs;
 	}
 
