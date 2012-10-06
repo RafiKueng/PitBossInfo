@@ -37,7 +37,7 @@ string Event::toString()
 	switch (this->type) {
 	case NEW_TURN: // a new year begun. __years
 		buf << "NEW TURN [from " << ((__years*)this->args)->from 
-			<< " to " << ((__years*)this->args)->from
+			<< " to " << ((__years*)this->args)->to
 			<<"]";
 		break;
 
@@ -47,7 +47,7 @@ string Event::toString()
 		string str = string("blabla");
 
 		buf << "STATUSCHANGE [pid: " << ((__status*)this->args)->player
-			<< " new status: " << ((__status*)this->args)->status
+			<< " nStat: " << ((__status*)this->args)->status
 			<< " (" << str << ")"
 			<< "]";
 		break;}
@@ -60,14 +60,14 @@ string Event::toString()
 		break;
 
 	case PLAYER_NAME_CHANGE: // a player changed his name, __names
-		buf << "NAMECHANGE  [pid: "<< ((__names*)this->args)->player
+		buf << "NAMECHANGE   [pid: "<< ((__names*)this->args)->player
 			<< ", from: " << ((__names*)this->args)->from
 			<< " to: " << ((__names*)this->args)->to
 			<< "]";
 		break;
 	}
 
-	buf << " {@" << asctime(localtime(&this->timestamp)) << "}";
+	buf << " {@" << string(asctime(localtime(&this->timestamp))).substr(0,23) << "}";
 
 	return buf.str();
 }

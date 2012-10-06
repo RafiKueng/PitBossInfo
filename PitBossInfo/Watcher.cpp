@@ -147,7 +147,7 @@ namespace Watcher {
 	}
 
 
-	GameStatus getStatus() {
+	GameStatus* getStatus() {
 
 		string name;
 		int year;
@@ -162,7 +162,7 @@ namespace Watcher {
 		parseNameYear(nameyearstr, name, year);
 		parseTimer(timestr, timer, nextRound);
 
-		GameStatus gs = GameStatus(name, year, nextRound, nPlayer);
+		GameStatus * gs = new GameStatus(name, year, nextRound, nPlayer);
 
 		int nPlayerFinished = 0;
 
@@ -189,12 +189,12 @@ namespace Watcher {
 			delete[] scorestr;
 
 			//Player p = new Player(pname, finishedTurn, status, score);
-			gs.setPlayer(i, pname, finishedTurn, status, score);
+			gs->setPlayer(i, pname, finishedTurn, status, score);
 
 			if (finishedTurn) {nPlayerFinished++;}
 		}
 
-		gs.nPlayerFinished = nPlayerFinished;
+		gs->nPlayerFinished = nPlayerFinished;
 		
 		return gs;
 	}

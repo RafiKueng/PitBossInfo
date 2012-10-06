@@ -4,10 +4,14 @@
 
 
 Game::Game(_TCHAR* gamename) {
-	_initSuccessful = false;
+	this->_initSuccessful = false;
 	Watcher::init(gamename);
-	_initSuccessful = true;
-	_firstRun = true;
+
+	//_thisYearsEvents = vector<Event*>();
+	//_lastYearsEvents = vector<Event*>();
+
+	this->_initSuccessful = true;
+	this->_firstRun = true;
 
 }
 
@@ -21,47 +25,48 @@ Game::~Game(void) {
 void Game::update() {
 	//make the first run work to :)
 	if (_firstRun) {
-		_gameStatus = Watcher::getStatus();
-		_firstRun = false;
+		this->_gameStatus = Watcher::getStatus();
+		this->_firstRun = false;
 	}
 
-	GameStatus newStatus = Watcher::getStatus();
+	GameStatus * newStatus = Watcher::getStatus();
 
 	Event * e;
 	time_t currentTime;
   	time ( &currentTime );
 	
 	//reset newEvents
-	newEvents.clear();
+	_newEvents = vector<Event*>();
 	
 	// new round has begun
-	if (newStatus.year != _gameStatus.year) {
+	if (newStatus->year != _gameStatus->year) {
+		/*
 		//clean up and delete old events
 		vector<Event*>::iterator it;
-		for ( it = lastYearsEvents.begin(); it != lastYearsEvents.end(); ) {
-			delete * it; //TODO: BUG HERE
-			it = lastYearsEvents.erase(it);
+		for ( it = _lastYearsEvents.begin(); it != _lastYearsEvents.end(); ) {
+			//delete * it; //TODO: BUG HERE
+			it = _lastYearsEvents.erase(it);
 		}
-		for (it = thisYearsEvents.begin();it != thisYearsEvents.end(); it++) {
-			lastYearsEvents.push_back(*it);
+		for (it = _thisYearsEvents.begin();it != _thisYearsEvents.end(); it++) {
+			_lastYearsEvents.push_back(*it);
 		}
-		thisYearsEvents.clear();
-
+		_thisYearsEvents.clear();
+		*/
 		//create new turn event
 		__years * yr = new __years(); //will be deleted on event destruction
-		yr->from = _gameStatus.year;
-		yr->to = newStatus.year;
+		yr->from = _gameStatus->year;
+		yr->to = newStatus->year;
 		e = new Event(NEW_TURN, currentTime, yr);
-		newEvents.push_back(e);
-		thisYearsEvents.push_back(e);
+		_newEvents.push_back(e);
+		//_thisYearsEvents.push_back(e);
 	}
 
 
 	//check each player for changes in his status
-	for (int i = 0; i < newStatus.nPlayer; ++i) {
+	for (int i = 0; i < newStatus->nPlayer; ++i) {
 		
-		Player * pn = &(newStatus.player[i]); //new status player
-		Player * po = &(_gameStatus.player[i]); //old status player
+		Player * pn = &(newStatus->player[i]); //new status player
+		Player * po = &(_gameStatus->player[i]); //old status player
 
 		//name change
 		if (pn->name.compare(po->name) != 0) {
@@ -72,8 +77,8 @@ void Game::update() {
 
 			e = new Event(PLAYER_NAME_CHANGE, currentTime, na);
 
-			newEvents.push_back(e);
-			thisYearsEvents.push_back(e);	
+			_newEvents.push_back(e);
+			//_thisYearsEvents.push_back(e);	
 		}
 		
 		
@@ -84,8 +89,8 @@ void Game::update() {
 			st->status = PlayerStatusChange(po->status + 5*pn->status); //check the table in /docs/status.ods
 
 			e = new Event(PLAYER_STATUS_CHANGE, currentTime, st);
-			newEvents.push_back(e);
-			thisYearsEvents.push_back(e);	
+			_newEvents.push_back(e);
+			//_thisYearsEvents.push_back(e);	
 		}
 
 
@@ -97,8 +102,8 @@ void Game::update() {
 
 			e = new Event(PLAYER_STATUS_CHANGE, currentTime, st);
 
-			newEvents.push_back(e);
-			thisYearsEvents.push_back(e);	
+			_newEvents.push_back(e);
+			//_thisYearsEvents.push_back(e);	
 		}
 
 
@@ -110,23 +115,23 @@ void Game::update() {
 			sc->to = pn->score;
 
 			e = new Event(PLAYER_SCORE_CHANGE, currentTime, sc);
-			newEvents.push_back(e);
-			thisYearsEvents.push_back(e);
+			_newEvents.push_back(e);
+			//_thisYearsEvents.push_back(e);
 		}
 	}
 
 	println(2,L"got the following events:");
-	for(vector<Event*>::iterator it = newEvents.begin(); it != newEvents.end(); ++it) {
-		cout<<"   "<<(*it)->toString().c_str();
+	for(vector<Event*>::iterator it = _newEvents.begin(); it != _newEvents.end(); ++it) {
+		cout<<"  "<<(*it)->toString() <<endl;
 	}
 
-
+	delete _gameStatus;
 	_gameStatus = newStatus;
 }
 
 
 GameStatus* Game::getStatus() {
-	return &(this->_gameStatus);
+	return this->_gameStatus;
 }
 
 
