@@ -8,6 +8,18 @@ Generates an overview of
 * whether they did their turn
 * finishing time of the actual round.
 
+Compiling yourself
+------------------
+###required libs:
+* libcurl (tested version 7.28, oct 2012)
+
+###instructions
+* get libcurl here (the sources, not binaries) http://curl.haxx.se/download.html (but you don't need any additional libraries)
+* extract libcurl it to the folder: `[project_root]` and rename `[projectroot]\curl-7.28.0` to `[projectroot]\libcurl`
+* open the vs2012 project file
+* build the solution
+
+
 Specs:
 ------
 * written in pure c++, no .NET or any fancy libs needed

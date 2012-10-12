@@ -59,3 +59,9 @@ packages/
 
 #backup files from merge
 *.orig
+
+#dont add the libraries, but only an empty path (or containing a readme)
+!libcurl/
+
+libcurl/*
+!libcurl/GET_LIBCURL_YOURSELF.txt
