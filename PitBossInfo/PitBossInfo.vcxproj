@@ -82,6 +82,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameStatus.h" />
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="HtmlGETSender.h" />
     <ClInclude Include="HtmlLogger.h" />
     <ClInclude Include="Lang.h" />
     <ClInclude Include="Logger.h" />
@@ -96,6 +97,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameStatus.cpp" />
     <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="htmlGETSender.cpp" />
     <ClCompile Include="HtmlLogger.cpp" />
     <ClCompile Include="Lang.cpp" />
     <ClCompile Include="Logger.cpp" />

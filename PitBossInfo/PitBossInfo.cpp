@@ -22,6 +22,7 @@
 
 #include "Logger.h"
 #include "HtmlLogger.h"
+#include "HtmlGETSender.h"
 
 using namespace std;
 
@@ -47,8 +48,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
     for (int nArg=1; nArg < argc; nArg++){
 		//cout << nArg << " ";
-		char buf[255];
-		wcstombs(buf, argv[nArg],255);
+		char buf[MAX_CHAR_LEN];
+		wcstombs(buf, argv[nArg],MAX_CHAR_LEN);
 
 		if (buf[0]=='-') {
 			switch (buf[1])
@@ -90,16 +91,16 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	
-	char buf[255];
+	char buf[MAX_CHAR_LEN];
 
 	//save input in strings
-	wcstombs(buf, argv[p_at],255);
+	wcstombs(buf, argv[p_at],MAX_CHAR_LEN);
 	string cl_path = string(buf);
-	wcstombs(buf, argv[t_at],255);
+	wcstombs(buf, argv[t_at],MAX_CHAR_LEN);
 	int    cl_time = atoi(buf);
-	wcstombs(buf, argv[l_at],255);
+	wcstombs(buf, argv[l_at],MAX_CHAR_LEN);
 	string cl_lang = string(buf);
-	wcstombs(buf, argv[n_at],255);
+	wcstombs(buf, argv[n_at],MAX_CHAR_LEN);
 	string cl_name = string(buf);
 
 	// keep the Tchar arrays to..
@@ -117,27 +118,28 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	// --- end parsing -------------------------------
 
-	string txt_uri = string(cl_path);
-	string html_uri = string(cl_path);
-
 
 	Lang::init();
-
 	Game *thisGame = new Game(cl_name_);
 
+
 	OutputModule *txt_logger = new Logger(thisGame);
-	//string txt_uri = string(OUTPATH);
-	//txt_uri.append(FILENAME);
+	string txt_uri = string(cl_path);
 	txt_uri.append(".txt");
 	txt_logger->setup(txt_uri);
-		//string("I:\\www\\htdocs\\civ4_pb_status\\lp6.txt"));
+
     
     OutputModule *html_logger = new HtmlLogger(thisGame);
-	//string html_uri = string(OUTPATH);
-	//html_uri.append(FILENAME);
+	string html_uri = string(cl_path);
 	html_uri.append(".html");
 	html_logger->setup(html_uri);
-		//string("I:\\www\\htdocs\\civ4_pb_status\\lp6.html"));
+
+
+	OutputModule *htmlGET_sender = new HtmlGETSender(thisGame);
+	string post_url = string("http://civ4stats.appspot.com/civ4stats?s=event&");
+	htmlGET_sender->setup(post_url);
+
+
 
 	if (!thisGame->initSuccessful()){
 		println(0,L"Main    : game init not sucessful, aborting");

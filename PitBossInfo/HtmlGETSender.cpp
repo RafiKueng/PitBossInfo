@@ -1,42 +1,79 @@
 #include "StdAfx.h"
-#include "HtmlLogger.h"
+#include "HtmlGETSender.h"
 
 #include <sstream>
 
 /*****
-write the status as a HTML file
+makes a get request to a server specified by _url
+sending the event details as parameters
+every time an event happens.
+
+working with b.durrers webapp
+
+request should look like:
+http://civ4stats.appspot.com/civ4stats?s=event&gameid=[id]&pos=[playerid]&action=[action]&name=[playername]&nation=[nation]
+
+the parameters will simply be concated to the url, so make shure it contains the '?' and any additional parameters 's=event'
+
+available actions:
+ CONNECT, DISCONNECT, NEWROUND, DRAW
+
+
+***************************************
+(22:04:35) Farmer: 
+http://civ4stats.appspot.com/civ4stats?s=event&pos=2&action=draw&name=Hansi&nation=hosenscheissers&gameid=1
+(22:04:44) Farmer: 
+damit setzisch en event ab
+(22:04:54) Farmer: 
+s=event bliibt immer
+(22:05:05) Farmer: 
+pos=2 isch d indexnummere vom player
+(22:06:12) Farmer: 
+action chan sii: CONNECT, DISCONNECT, NEWROUND, DRAW
+(22:06:23) Farmer: 
+wohl selbsterklärend ^^
+(22:06:30) Farmer: 
+name= de spielername
+(22:06:35) Farmer: 
+nation= de name vo de nation
+***************************************
+
 ******/
 
-HtmlLogger::HtmlLogger() {
+HtmlGETSender::HtmlGETSender() {
 }
 
 
-HtmlLogger::HtmlLogger(Game *_game) {
+HtmlGETSender::HtmlGETSender(Game *_game) {
 	this->game = _game;
 }
 
 
-HtmlLogger::~HtmlLogger(void)
+HtmlGETSender::~HtmlGETSender(void)
 {
 }
 
 
-void HtmlLogger::connect(Game *_game) {
+void HtmlGETSender::connect(Game *_game) {
 	this->game = _game;
 }
 
 
-void HtmlLogger::setup(string _path) {
+void HtmlGETSender::setup(string _url) {
 
 	wchar_t buf[MAX_CHAR_LEN];
-	mbstowcs(buf, _path.c_str(),MAX_CHAR_LEN);
+	mbstowcs(buf, _url.c_str(),MAX_CHAR_LEN);
 
-	println(0,L"HtmlLogger  : setup: setting output path to: %s", buf);
-	this->path = _path;
+	println(0,L"HtmlGETSender  : setup: setting output path to: %s", buf);
+	this->url = _url;
 }
 
 
-void HtmlLogger::write() {
+void HtmlGETSender::write() {
+
+	//TODO: fill this emptyness
+	
+	/*
 
 	GameStatus *stat = game->getStatus();
 
@@ -123,4 +160,6 @@ void HtmlLogger::write() {
 	
 	file << buf.str();
 	file.close();
+
+	*/
 }

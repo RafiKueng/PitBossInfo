@@ -19,8 +19,8 @@ void Logger::connect(Game *_game) {
 
 void Logger::setup(string _path) {
 	
-	wchar_t buf[255];
-	mbstowcs(buf, _path.c_str(),255);
+	wchar_t buf[MAX_CHAR_LEN];
+	mbstowcs(buf, _path.c_str(),MAX_CHAR_LEN);
 
 	println(0,L"Logger  : setup: setting output path to: %s", buf);
 	this->path = _path;
