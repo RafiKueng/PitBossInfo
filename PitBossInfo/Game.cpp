@@ -5,6 +5,7 @@
 
 Game::Game(_TCHAR* gamename) {
 	this->_initSuccessful = false;
+	cout << "in game.cpp, got ganemname" << *gamename;
 	Watcher::init(gamename);
 
 	//_thisYearsEvents = vector<Event*>();

@@ -36,7 +36,7 @@ namespace Lang {
 	// cerates / converts the lookuptable in std chars
 	void init() {
 		cstr = new char**[_N_LANG];
-		TCHAR **table;
+		_TCHAR **table;
 
 		for (int i = 0; i<_N_LANG; ++i){
 			cstr[i] = new char*[TXT_N_ENTRIES];

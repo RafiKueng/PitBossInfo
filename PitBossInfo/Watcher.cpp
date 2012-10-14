@@ -22,7 +22,7 @@ namespace Watcher {
 	*/
 
 	void init(_TCHAR* gamename){
-		println(0, L"Watcher : Init...");
+		println(0, _T("Watcher : Init..."));
 				
 		childCount = 0;
 		nPlayer = 0;
@@ -34,7 +34,8 @@ namespace Watcher {
 		
 
 		print(1, _T("Watcher : seeking pitboss main window: "));
-		const TCHAR * windowname = TXT_GET_WS(LANGUAGE, TXT_PITBOSS_TITLE, gamename);
+		//const TCHAR * windowname = TXT_GET_WS(LANGUAGE, TXT_PITBOSS_TITLE, gamename);
+		const char * windowname = "test";  
 		pitbossH = FindWindow(NULL, windowname);
 		delete [] windowname;
 

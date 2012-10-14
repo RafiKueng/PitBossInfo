@@ -11,14 +11,21 @@
 *				rc3: added stylesheet to html logger; w3c valid html, css (bdurrer, rafik)
 *				rc4: fixed "*MOD*" status issue, fixed "defeated, " issue
 *				1.1: removed hardcoded stuff, added commandline parsing
+*				1.2: changed to get settings from ini file provided with comand line switch
+*						removed unicode support, all in ansi now.
+*********************************************************************************************
+* TODO:			-	finish conversion from unicode to ansi (stuck somewhere between game.cpp
+*					and watcher.h)
+*
 *********************************************************************************************/
 
 #include "stdafx.h"
 #include <conio.h>
+#include <map>
 
 #include "Game.h"
 #include "Watcher.h"
-#include "Lang.h"
+//#include "Lang.h"
 
 #include "Logger.h"
 #include "HtmlLogger.h"
@@ -26,7 +33,7 @@
 
 using namespace std;
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char * argv[])
 {
 	// main programm / init stuff
 	// -----------------------------------------------------------------------------------
@@ -43,50 +50,39 @@ int _tmain(int argc, _TCHAR* argv[])
     // Loop through each argument and print its number and value
 
 	bool error = false;
-	int p_at, t_at, l_at, n_at;
-	int count = 4;
+	int c_at;
+	bool gotConfig = false;
 
     for (int nArg=1; nArg < argc; nArg++){
 		//cout << nArg << " ";
-		char buf[MAX_CHAR_LEN];
-		wcstombs(buf, argv[nArg],MAX_CHAR_LEN);
+		//char buf[MAX_CHAR_LEN];
+		//wcstombs(buf, argv[nArg],MAX_CHAR_LEN);
 
-		if (buf[0]=='-') {
-			switch (buf[1])
+		if (argv[nArg][0]=='-') {
+			switch (argv[nArg][1])
 			{
-			case 'p': //path (without extension)
-				p_at = nArg+1;
-				count--;
-				break;
-			case 't': //refreshtime
-				t_at = nArg+1;
-				count--;
-				break;
-			case 'l': //language
-				l_at = nArg+1;
-				count--;
-				break;
-			case 'n': //name
-				n_at = nArg+1;
-				count--;
+			case 'c': //path to config file
+				c_at = nArg+1;
+				gotConfig=true;
 				break;
 			case 'h': //help
 				error=true;
 				break;
+			case 'p': //list leader / player ids
+				error=true;
+				break;
 			default:
-				cout << "unknown argument: " << buf[1] << endl;
+				cout << "unknown argument: " << argv[nArg][1] << endl;
 				error = true;
 			}
 		}
 	}
 
-	if (error || count>0 )
+	if (error || !gotConfig)
 	{
 		cout << "use: -h help \n";
-		cout << "     -p output path without extension\n";
-		cout << "     -t refresh timer (in sec, use 15)\n";
-		cout << "     -l language of pitboss (use 2 chars, de, en)\n";
-		cout << "     -n name of the game (pitboss title)\n";
+		cout << "     -c config file path\n";
+		cout << "     -p list nations/leader ids\n";
 		return 0;
 	}
 
@@ -94,35 +90,56 @@ int _tmain(int argc, _TCHAR* argv[])
 	char buf[MAX_CHAR_LEN];
 
 	//save input in strings
-	wcstombs(buf, argv[p_at],MAX_CHAR_LEN);
-	string cl_path = string(buf);
-	wcstombs(buf, argv[t_at],MAX_CHAR_LEN);
-	int    cl_time = atoi(buf);
-	wcstombs(buf, argv[l_at],MAX_CHAR_LEN);
-	string cl_lang = string(buf);
-	wcstombs(buf, argv[n_at],MAX_CHAR_LEN);
-	string cl_name = string(buf);
-
-	// keep the Tchar arrays to..
-	_TCHAR* cl_path_ = argv[p_at];
-	_TCHAR* cl_lang_ = argv[l_at];
-	_TCHAR* cl_name_ = argv[n_at];
-
-
-	cout << "out.path : " << cl_path.c_str() << endl;
-	cout << "timeout  : " << cl_time << endl;
-	cout << "language : " << cl_lang.c_str() << endl;
-	cout << "win.name : " << cl_name.c_str() << endl;
-
+	//wcstombs(buf, argv[c_at],MAX_CHAR_LEN);
+	string cl_configfile = string(argv[c_at]);
+	cout << "config file : " << cl_configfile << endl;
 
 
 	// --- end parsing -------------------------------
 
 
+
+	// --- READ CONFIG FILE ----------------------------
+
+	string line;
+	map<string, string> settings;
+
+	ifstream configfile (cl_configfile);
+	if (configfile.is_open())
+	{
+		while ( configfile.good() )
+		{
+			getline (configfile,line);
+			if (line.substr(0,1).compare("#")==0) { continue; } //a commenting line
+			if (line.empty()) { continue; } //a commenting line
+			int pos_eq = line.find("=");
+
+			settings.insert(pair<string,string>(
+				line.substr(0,pos_eq), line.substr(pos_eq+1,string::npos)));
+
+			
+			if (VERBOSE_LEVEL==2) {
+				cout << "config: key  : "<<line.substr(0,pos_eq) << endl;
+				cout << "config: value: " << line.substr(pos_eq+1,string::npos) << endl;
+			}
+		}
+		configfile.close();
+	}
+
+	else {
+		cout << "Unable to open config file, aborting";
+		return 1;
+	}
+
+	// --- end reading config file
+
+
 	Lang::init();
-	Game *thisGame = new Game(cl_name_);
 
+	string gamename = settings.find("game.name")->second;
+	Game *thisGame = new Game(gamename);
 
+	/*
 	OutputModule *txt_logger = new Logger(thisGame);
 	string txt_uri = string(cl_path);
 	txt_uri.append(".txt");
@@ -138,7 +155,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	OutputModule *htmlGET_sender = new HtmlGETSender(thisGame);
 	string post_url = string("http://civ4stats.appspot.com/civ4stats?s=event&");
 	htmlGET_sender->setup(post_url);
-
+	*/
 
 
 	if (!thisGame->initSuccessful()){
@@ -172,14 +189,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		thisGame->update();
 
 		//updateing the outputs
-		txt_logger->write();
-		html_logger->write();
+		//txt_logger->write();
+		//html_logger->write();
 		//db_logger.writeToDB()
 
 
 		// waiting some time
-		println(2,L"getting some sleep (%i ms)", cl_time*1000);
-		Sleep(cl_time*1000);	//using the winapi sleep to not overheat my server...
+		//println(2,L"getting some sleep (%i ms)", cl_time*1000);
+		//Sleep(cl_time*1000);	//using the winapi sleep to not overheat my server...
 	}
 
 	print(0,L"\nShutting down....               ");
@@ -187,8 +204,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	Lang::cleanUp();
 
 	delete thisGame;
-	delete txt_logger;
-	delete html_logger;
+	//delete txt_logger;
+	//delete html_logger;
 
 	//show memory leak report
 	//_CrtDumpMemoryLeaks();
